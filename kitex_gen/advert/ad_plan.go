@@ -2,83 +2,767 @@
 
 package advert
 
+import "fmt"
+
 // BaseResponse 基础响应
 type BaseResponse struct {
-	Code    int32  `thrift:"code,1" json:"code"`
-	Message string `thrift:"message,2" json:"message"`
+	Code    int32  `thrift:"code,1" frugal:"1,default,i32" json:"code"`
+	Message string `thrift:"message,2" frugal:"2,default,string" json:"message"`
 }
 
-// AdPlan 广告计划
+func NewBaseResponse() *BaseResponse {
+	return &BaseResponse{}
+}
+
+func (p *BaseResponse) InitDefault() {
+}
+
+func (p *BaseResponse) GetCode() (v int32) {
+	return p.Code
+}
+
+func (p *BaseResponse) GetMessage() (v string) {
+	return p.Message
+}
+func (p *BaseResponse) SetCode(val int32) {
+	p.Code = val
+}
+func (p *BaseResponse) SetMessage(val string) {
+	p.Message = val
+}
+
+func (p *BaseResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("BaseResponse(%+v)", *p)
+}
+
+var fieldIDToName_BaseResponse = map[int16]string{
+	1: "code",
+	2: "message",
+}
+
 type AdPlan struct {
-	PlanId        int64   `thrift:"planId,1" json:"planId"`
-	Name          string  `thrift:"name,2" json:"name"`
-	Objective     string  `thrift:"objective,3" json:"objective"`
-	Budget        float64 `thrift:"budget,4" json:"budget"`
-	BidPrice      string  `thrift:"bidPrice,5" json:"bidPrice"`
-	TargetingRule string  `thrift:"targetingRule,6" json:"targetingRule"`
-	StartTime     string  `thrift:"startTime,7" json:"startTime"`
-	EndTime       string  `thrift:"endTime,8" json:"endTime"`
-	Status        int32   `thrift:"status,9" json:"status"`
-	CreateTime    string  `thrift:"createTime,10" json:"createTime"`
-	UpdateTime    string  `thrift:"updateTime,11" json:"updateTime"`
+	PlanId        int64   `thrift:"planId,1" frugal:"1,default,i64" json:"planId"`
+	Name          string  `thrift:"name,2" frugal:"2,default,string" json:"name"`
+	Objective     string  `thrift:"objective,3" frugal:"3,default,string" json:"objective"`
+	Budget        float64 `thrift:"budget,4" frugal:"4,default,double" json:"budget"`
+	BidPrice      string  `thrift:"bidPrice,5" frugal:"5,default,string" json:"bidPrice"`
+	TargetingRule string  `thrift:"targetingRule,6" frugal:"6,default,string" json:"targetingRule"`
+	StartTime     string  `thrift:"startTime,7" frugal:"7,default,string" json:"startTime"`
+	EndTime       string  `thrift:"endTime,8" frugal:"8,default,string" json:"endTime"`
+	Status        int32   `thrift:"status,9" frugal:"9,default,i32" json:"status"`
+	CreateTime    string  `thrift:"createTime,10" frugal:"10,default,string" json:"createTime"`
+	UpdateTime    string  `thrift:"updateTime,11" frugal:"11,default,string" json:"updateTime"`
+}
+
+func NewAdPlan() *AdPlan {
+	return &AdPlan{}
+}
+
+func (p *AdPlan) InitDefault() {
+}
+
+func (p *AdPlan) GetPlanId() (v int64) {
+	return p.PlanId
+}
+
+func (p *AdPlan) GetName() (v string) {
+	return p.Name
+}
+
+func (p *AdPlan) GetObjective() (v string) {
+	return p.Objective
+}
+
+func (p *AdPlan) GetBudget() (v float64) {
+	return p.Budget
+}
+
+func (p *AdPlan) GetBidPrice() (v string) {
+	return p.BidPrice
+}
+
+func (p *AdPlan) GetTargetingRule() (v string) {
+	return p.TargetingRule
+}
+
+func (p *AdPlan) GetStartTime() (v string) {
+	return p.StartTime
+}
+
+func (p *AdPlan) GetEndTime() (v string) {
+	return p.EndTime
+}
+
+func (p *AdPlan) GetStatus() (v int32) {
+	return p.Status
+}
+
+func (p *AdPlan) GetCreateTime() (v string) {
+	return p.CreateTime
+}
+
+func (p *AdPlan) GetUpdateTime() (v string) {
+	return p.UpdateTime
+}
+func (p *AdPlan) SetPlanId(val int64) {
+	p.PlanId = val
+}
+func (p *AdPlan) SetName(val string) {
+	p.Name = val
+}
+func (p *AdPlan) SetObjective(val string) {
+	p.Objective = val
+}
+func (p *AdPlan) SetBudget(val float64) {
+	p.Budget = val
+}
+func (p *AdPlan) SetBidPrice(val string) {
+	p.BidPrice = val
+}
+func (p *AdPlan) SetTargetingRule(val string) {
+	p.TargetingRule = val
+}
+func (p *AdPlan) SetStartTime(val string) {
+	p.StartTime = val
+}
+func (p *AdPlan) SetEndTime(val string) {
+	p.EndTime = val
+}
+func (p *AdPlan) SetStatus(val int32) {
+	p.Status = val
+}
+func (p *AdPlan) SetCreateTime(val string) {
+	p.CreateTime = val
+}
+func (p *AdPlan) SetUpdateTime(val string) {
+	p.UpdateTime = val
+}
+
+func (p *AdPlan) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("AdPlan(%+v)", *p)
+}
+
+var fieldIDToName_AdPlan = map[int16]string{
+	1:  "planId",
+	2:  "name",
+	3:  "objective",
+	4:  "budget",
+	5:  "bidPrice",
+	6:  "targetingRule",
+	7:  "startTime",
+	8:  "endTime",
+	9:  "status",
+	10: "createTime",
+	11: "updateTime",
 }
 
 type CreateAdPlanRequest struct {
-	Name          string  `thrift:"name,1" json:"name"`
-	Objective     string  `thrift:"objective,2" json:"objective"`
-	Budget        float64 `thrift:"budget,3" json:"budget"`
-	BidPrice      string  `thrift:"bidPrice,4" json:"bidPrice"`
-	TargetingRule string  `thrift:"targetingRule,5" json:"targetingRule"`
-	StartTime     string  `thrift:"startTime,6" json:"startTime"`
-	EndTime       string  `thrift:"endTime,7" json:"endTime"`
+	Name          string  `thrift:"name,1" frugal:"1,default,string" json:"name"`
+	Objective     string  `thrift:"objective,2" frugal:"2,default,string" json:"objective"`
+	Budget        float64 `thrift:"budget,3" frugal:"3,default,double" json:"budget"`
+	BidPrice      string  `thrift:"bidPrice,4" frugal:"4,default,string" json:"bidPrice"`
+	TargetingRule string  `thrift:"targetingRule,5" frugal:"5,default,string" json:"targetingRule"`
+	StartTime     string  `thrift:"startTime,6" frugal:"6,default,string" json:"startTime"`
+	EndTime       string  `thrift:"endTime,7" frugal:"7,default,string" json:"endTime"`
+}
+
+func NewCreateAdPlanRequest() *CreateAdPlanRequest {
+	return &CreateAdPlanRequest{}
+}
+
+func (p *CreateAdPlanRequest) InitDefault() {
+}
+
+func (p *CreateAdPlanRequest) GetName() (v string) {
+	return p.Name
+}
+
+func (p *CreateAdPlanRequest) GetObjective() (v string) {
+	return p.Objective
+}
+
+func (p *CreateAdPlanRequest) GetBudget() (v float64) {
+	return p.Budget
+}
+
+func (p *CreateAdPlanRequest) GetBidPrice() (v string) {
+	return p.BidPrice
+}
+
+func (p *CreateAdPlanRequest) GetTargetingRule() (v string) {
+	return p.TargetingRule
+}
+
+func (p *CreateAdPlanRequest) GetStartTime() (v string) {
+	return p.StartTime
+}
+
+func (p *CreateAdPlanRequest) GetEndTime() (v string) {
+	return p.EndTime
+}
+func (p *CreateAdPlanRequest) SetName(val string) {
+	p.Name = val
+}
+func (p *CreateAdPlanRequest) SetObjective(val string) {
+	p.Objective = val
+}
+func (p *CreateAdPlanRequest) SetBudget(val float64) {
+	p.Budget = val
+}
+func (p *CreateAdPlanRequest) SetBidPrice(val string) {
+	p.BidPrice = val
+}
+func (p *CreateAdPlanRequest) SetTargetingRule(val string) {
+	p.TargetingRule = val
+}
+func (p *CreateAdPlanRequest) SetStartTime(val string) {
+	p.StartTime = val
+}
+func (p *CreateAdPlanRequest) SetEndTime(val string) {
+	p.EndTime = val
+}
+
+func (p *CreateAdPlanRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateAdPlanRequest(%+v)", *p)
+}
+
+var fieldIDToName_CreateAdPlanRequest = map[int16]string{
+	1: "name",
+	2: "objective",
+	3: "budget",
+	4: "bidPrice",
+	5: "targetingRule",
+	6: "startTime",
+	7: "endTime",
 }
 
 type CreateAdPlanResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	PlanId   int64         `thrift:"planId,2" json:"planId"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	PlanId   int64         `thrift:"planId,2" frugal:"2,default,i64" json:"planId"`
+}
+
+func NewCreateAdPlanResponse() *CreateAdPlanResponse {
+	return &CreateAdPlanResponse{}
+}
+
+func (p *CreateAdPlanResponse) InitDefault() {
+}
+
+var CreateAdPlanResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *CreateAdPlanResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return CreateAdPlanResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *CreateAdPlanResponse) GetPlanId() (v int64) {
+	return p.PlanId
+}
+func (p *CreateAdPlanResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *CreateAdPlanResponse) SetPlanId(val int64) {
+	p.PlanId = val
+}
+
+func (p *CreateAdPlanResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *CreateAdPlanResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateAdPlanResponse(%+v)", *p)
+}
+
+var fieldIDToName_CreateAdPlanResponse = map[int16]string{
+	1: "baseResp",
+	2: "planId",
 }
 
 type UpdateAdPlanRequest struct {
-	PlanId        int64    `thrift:"planId,1" json:"planId"`
-	Name          *string  `thrift:"name,2,optional" json:"name,omitempty"`
-	Objective     *string  `thrift:"objective,3,optional" json:"objective,omitempty"`
-	Budget        *float64 `thrift:"budget,4,optional" json:"budget,omitempty"`
-	BidPrice      *string  `thrift:"bidPrice,5,optional" json:"bidPrice,omitempty"`
-	TargetingRule *string  `thrift:"targetingRule,6,optional" json:"targetingRule,omitempty"`
-	StartTime     *string  `thrift:"startTime,7,optional" json:"startTime,omitempty"`
-	EndTime       *string  `thrift:"endTime,8,optional" json:"endTime,omitempty"`
-	Status        *int32   `thrift:"status,9,optional" json:"status,omitempty"`
+	PlanId        int64    `thrift:"planId,1" frugal:"1,default,i64" json:"planId"`
+	Name          *string  `thrift:"name,2,optional" frugal:"2,optional,string" json:"name,omitempty"`
+	Objective     *string  `thrift:"objective,3,optional" frugal:"3,optional,string" json:"objective,omitempty"`
+	Budget        *float64 `thrift:"budget,4,optional" frugal:"4,optional,double" json:"budget,omitempty"`
+	BidPrice      *string  `thrift:"bidPrice,5,optional" frugal:"5,optional,string" json:"bidPrice,omitempty"`
+	TargetingRule *string  `thrift:"targetingRule,6,optional" frugal:"6,optional,string" json:"targetingRule,omitempty"`
+	StartTime     *string  `thrift:"startTime,7,optional" frugal:"7,optional,string" json:"startTime,omitempty"`
+	EndTime       *string  `thrift:"endTime,8,optional" frugal:"8,optional,string" json:"endTime,omitempty"`
+	Status        *int32   `thrift:"status,9,optional" frugal:"9,optional,i32" json:"status,omitempty"`
+}
+
+func NewUpdateAdPlanRequest() *UpdateAdPlanRequest {
+	return &UpdateAdPlanRequest{}
+}
+
+func (p *UpdateAdPlanRequest) InitDefault() {
+}
+
+func (p *UpdateAdPlanRequest) GetPlanId() (v int64) {
+	return p.PlanId
+}
+
+var UpdateAdPlanRequest_Name_DEFAULT string
+
+func (p *UpdateAdPlanRequest) GetName() (v string) {
+	if !p.IsSetName() {
+		return UpdateAdPlanRequest_Name_DEFAULT
+	}
+	return *p.Name
+}
+
+var UpdateAdPlanRequest_Objective_DEFAULT string
+
+func (p *UpdateAdPlanRequest) GetObjective() (v string) {
+	if !p.IsSetObjective() {
+		return UpdateAdPlanRequest_Objective_DEFAULT
+	}
+	return *p.Objective
+}
+
+var UpdateAdPlanRequest_Budget_DEFAULT float64
+
+func (p *UpdateAdPlanRequest) GetBudget() (v float64) {
+	if !p.IsSetBudget() {
+		return UpdateAdPlanRequest_Budget_DEFAULT
+	}
+	return *p.Budget
+}
+
+var UpdateAdPlanRequest_BidPrice_DEFAULT string
+
+func (p *UpdateAdPlanRequest) GetBidPrice() (v string) {
+	if !p.IsSetBidPrice() {
+		return UpdateAdPlanRequest_BidPrice_DEFAULT
+	}
+	return *p.BidPrice
+}
+
+var UpdateAdPlanRequest_TargetingRule_DEFAULT string
+
+func (p *UpdateAdPlanRequest) GetTargetingRule() (v string) {
+	if !p.IsSetTargetingRule() {
+		return UpdateAdPlanRequest_TargetingRule_DEFAULT
+	}
+	return *p.TargetingRule
+}
+
+var UpdateAdPlanRequest_StartTime_DEFAULT string
+
+func (p *UpdateAdPlanRequest) GetStartTime() (v string) {
+	if !p.IsSetStartTime() {
+		return UpdateAdPlanRequest_StartTime_DEFAULT
+	}
+	return *p.StartTime
+}
+
+var UpdateAdPlanRequest_EndTime_DEFAULT string
+
+func (p *UpdateAdPlanRequest) GetEndTime() (v string) {
+	if !p.IsSetEndTime() {
+		return UpdateAdPlanRequest_EndTime_DEFAULT
+	}
+	return *p.EndTime
+}
+
+var UpdateAdPlanRequest_Status_DEFAULT int32
+
+func (p *UpdateAdPlanRequest) GetStatus() (v int32) {
+	if !p.IsSetStatus() {
+		return UpdateAdPlanRequest_Status_DEFAULT
+	}
+	return *p.Status
+}
+func (p *UpdateAdPlanRequest) SetPlanId(val int64) {
+	p.PlanId = val
+}
+func (p *UpdateAdPlanRequest) SetName(val *string) {
+	p.Name = val
+}
+func (p *UpdateAdPlanRequest) SetObjective(val *string) {
+	p.Objective = val
+}
+func (p *UpdateAdPlanRequest) SetBudget(val *float64) {
+	p.Budget = val
+}
+func (p *UpdateAdPlanRequest) SetBidPrice(val *string) {
+	p.BidPrice = val
+}
+func (p *UpdateAdPlanRequest) SetTargetingRule(val *string) {
+	p.TargetingRule = val
+}
+func (p *UpdateAdPlanRequest) SetStartTime(val *string) {
+	p.StartTime = val
+}
+func (p *UpdateAdPlanRequest) SetEndTime(val *string) {
+	p.EndTime = val
+}
+func (p *UpdateAdPlanRequest) SetStatus(val *int32) {
+	p.Status = val
+}
+
+func (p *UpdateAdPlanRequest) IsSetName() bool {
+	return p.Name != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetObjective() bool {
+	return p.Objective != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetBudget() bool {
+	return p.Budget != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetBidPrice() bool {
+	return p.BidPrice != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetTargetingRule() bool {
+	return p.TargetingRule != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetStartTime() bool {
+	return p.StartTime != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetEndTime() bool {
+	return p.EndTime != nil
+}
+
+func (p *UpdateAdPlanRequest) IsSetStatus() bool {
+	return p.Status != nil
+}
+
+func (p *UpdateAdPlanRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateAdPlanRequest(%+v)", *p)
+}
+
+var fieldIDToName_UpdateAdPlanRequest = map[int16]string{
+	1: "planId",
+	2: "name",
+	3: "objective",
+	4: "budget",
+	5: "bidPrice",
+	6: "targetingRule",
+	7: "startTime",
+	8: "endTime",
+	9: "status",
 }
 
 type UpdateAdPlanResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewUpdateAdPlanResponse() *UpdateAdPlanResponse {
+	return &UpdateAdPlanResponse{}
+}
+
+func (p *UpdateAdPlanResponse) InitDefault() {
+}
+
+var UpdateAdPlanResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *UpdateAdPlanResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return UpdateAdPlanResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *UpdateAdPlanResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *UpdateAdPlanResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *UpdateAdPlanResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateAdPlanResponse(%+v)", *p)
+}
+
+var fieldIDToName_UpdateAdPlanResponse = map[int16]string{
+	1: "baseResp",
 }
 
 type GetAdPlanRequest struct {
-	PlanId int64 `thrift:"planId,1" json:"planId"`
+	PlanId int64 `thrift:"planId,1" frugal:"1,default,i64" json:"planId"`
+}
+
+func NewGetAdPlanRequest() *GetAdPlanRequest {
+	return &GetAdPlanRequest{}
+}
+
+func (p *GetAdPlanRequest) InitDefault() {
+}
+
+func (p *GetAdPlanRequest) GetPlanId() (v int64) {
+	return p.PlanId
+}
+func (p *GetAdPlanRequest) SetPlanId(val int64) {
+	p.PlanId = val
+}
+
+func (p *GetAdPlanRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetAdPlanRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetAdPlanRequest = map[int16]string{
+	1: "planId",
 }
 
 type GetAdPlanResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	AdPlan   *AdPlan       `thrift:"adPlan,2" json:"adPlan"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	AdPlan   *AdPlan       `thrift:"adPlan,2" frugal:"2,default,AdPlan" json:"adPlan"`
+}
+
+func NewGetAdPlanResponse() *GetAdPlanResponse {
+	return &GetAdPlanResponse{}
+}
+
+func (p *GetAdPlanResponse) InitDefault() {
+}
+
+var GetAdPlanResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *GetAdPlanResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return GetAdPlanResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+var GetAdPlanResponse_AdPlan_DEFAULT *AdPlan
+
+func (p *GetAdPlanResponse) GetAdPlan() (v *AdPlan) {
+	if !p.IsSetAdPlan() {
+		return GetAdPlanResponse_AdPlan_DEFAULT
+	}
+	return p.AdPlan
+}
+func (p *GetAdPlanResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *GetAdPlanResponse) SetAdPlan(val *AdPlan) {
+	p.AdPlan = val
+}
+
+func (p *GetAdPlanResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetAdPlanResponse) IsSetAdPlan() bool {
+	return p.AdPlan != nil
+}
+
+func (p *GetAdPlanResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetAdPlanResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetAdPlanResponse = map[int16]string{
+	1: "baseResp",
+	2: "adPlan",
 }
 
 type ListAdPlansRequest struct {
-	Page     int32  `thrift:"page,1" json:"page"`
-	PageSize int32  `thrift:"pageSize,2" json:"pageSize"`
-	Status   *int32 `thrift:"status,3,optional" json:"status,omitempty"`
+	Page     int32  `thrift:"page,1" frugal:"1,default,i32" json:"page"`
+	PageSize int32  `thrift:"pageSize,2" frugal:"2,default,i32" json:"pageSize"`
+	Status   *int32 `thrift:"status,3,optional" frugal:"3,optional,i32" json:"status,omitempty"`
+}
+
+func NewListAdPlansRequest() *ListAdPlansRequest {
+	return &ListAdPlansRequest{}
+}
+
+func (p *ListAdPlansRequest) InitDefault() {
+}
+
+func (p *ListAdPlansRequest) GetPage() (v int32) {
+	return p.Page
+}
+
+func (p *ListAdPlansRequest) GetPageSize() (v int32) {
+	return p.PageSize
+}
+
+var ListAdPlansRequest_Status_DEFAULT int32
+
+func (p *ListAdPlansRequest) GetStatus() (v int32) {
+	if !p.IsSetStatus() {
+		return ListAdPlansRequest_Status_DEFAULT
+	}
+	return *p.Status
+}
+func (p *ListAdPlansRequest) SetPage(val int32) {
+	p.Page = val
+}
+func (p *ListAdPlansRequest) SetPageSize(val int32) {
+	p.PageSize = val
+}
+func (p *ListAdPlansRequest) SetStatus(val *int32) {
+	p.Status = val
+}
+
+func (p *ListAdPlansRequest) IsSetStatus() bool {
+	return p.Status != nil
+}
+
+func (p *ListAdPlansRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ListAdPlansRequest(%+v)", *p)
+}
+
+var fieldIDToName_ListAdPlansRequest = map[int16]string{
+	1: "page",
+	2: "pageSize",
+	3: "status",
 }
 
 type ListAdPlansResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	AdPlans  []*AdPlan     `thrift:"adPlans,2" json:"adPlans"`
-	Total    int64         `thrift:"total,3" json:"total"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	AdPlans  []*AdPlan     `thrift:"adPlans,2" frugal:"2,default,list<AdPlan>" json:"adPlans"`
+	Total    int64         `thrift:"total,3" frugal:"3,default,i64" json:"total"`
+}
+
+func NewListAdPlansResponse() *ListAdPlansResponse {
+	return &ListAdPlansResponse{}
+}
+
+func (p *ListAdPlansResponse) InitDefault() {
+}
+
+var ListAdPlansResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *ListAdPlansResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return ListAdPlansResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *ListAdPlansResponse) GetAdPlans() (v []*AdPlan) {
+	return p.AdPlans
+}
+
+func (p *ListAdPlansResponse) GetTotal() (v int64) {
+	return p.Total
+}
+func (p *ListAdPlansResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *ListAdPlansResponse) SetAdPlans(val []*AdPlan) {
+	p.AdPlans = val
+}
+func (p *ListAdPlansResponse) SetTotal(val int64) {
+	p.Total = val
+}
+
+func (p *ListAdPlansResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *ListAdPlansResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ListAdPlansResponse(%+v)", *p)
+}
+
+var fieldIDToName_ListAdPlansResponse = map[int16]string{
+	1: "baseResp",
+	2: "adPlans",
+	3: "total",
 }
 
 type DeleteAdPlanRequest struct {
-	PlanId int64 `thrift:"planId,1" json:"planId"`
+	PlanId int64 `thrift:"planId,1" frugal:"1,default,i64" json:"planId"`
+}
+
+func NewDeleteAdPlanRequest() *DeleteAdPlanRequest {
+	return &DeleteAdPlanRequest{}
+}
+
+func (p *DeleteAdPlanRequest) InitDefault() {
+}
+
+func (p *DeleteAdPlanRequest) GetPlanId() (v int64) {
+	return p.PlanId
+}
+func (p *DeleteAdPlanRequest) SetPlanId(val int64) {
+	p.PlanId = val
+}
+
+func (p *DeleteAdPlanRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteAdPlanRequest(%+v)", *p)
+}
+
+var fieldIDToName_DeleteAdPlanRequest = map[int16]string{
+	1: "planId",
 }
 
 type DeleteAdPlanResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewDeleteAdPlanResponse() *DeleteAdPlanResponse {
+	return &DeleteAdPlanResponse{}
+}
+
+func (p *DeleteAdPlanResponse) InitDefault() {
+}
+
+var DeleteAdPlanResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *DeleteAdPlanResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return DeleteAdPlanResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *DeleteAdPlanResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *DeleteAdPlanResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *DeleteAdPlanResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteAdPlanResponse(%+v)", *p)
+}
+
+var fieldIDToName_DeleteAdPlanResponse = map[int16]string{
+	1: "baseResp",
 }

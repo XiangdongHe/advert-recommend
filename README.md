@@ -488,6 +488,15 @@ go mod tidy
 1. 修改 `config/config.go` 中的端口号
 2. 或者关闭占用 8888 端口的进程
 
+### Q5: 数据库密码正确缺提示拒接连接
+**错误**: `[error] failed to initialize database, got error Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES) 2025/10/29 12:02:34 Failed to initialize database: failed to connect database: Error 1045 (28000): Access denied for user 'root'@'localhost' (using password: YES)`
+
+**解决方案**:
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'your_password';
+FLUSH PRIVILEGES;
+```
+
 ## 9. 生产环境部署
 
 ### 编译可执行文件

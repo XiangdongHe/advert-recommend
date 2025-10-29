@@ -4,8 +4,6 @@ import (
 	"AdvertRecommend/database"
 	"AdvertRecommend/models"
 	"errors"
-
-	"gorm.io/gorm"
 )
 
 // UserInterestService 用户兴趣服务

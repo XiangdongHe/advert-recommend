@@ -2,98 +2,859 @@
 
 package advert
 
+import "fmt"
+
 type UserProfileBase struct {
-	UserId     int64  `thrift:"userId,1" json:"userId"`
-	Gender     int32  `thrift:"gender,2" json:"gender"`
-	Age        int32  `thrift:"age,3" json:"age"`
-	Region     string `thrift:"region,4" json:"region"`
-	DeviceType string `thrift:"deviceType,5" json:"deviceType"`
-	CreateTime string `thrift:"createTime,6" json:"createTime"`
-	UpdateTime string `thrift:"updateTime,7" json:"updateTime"`
+	UserId     int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Gender     int32  `thrift:"gender,2" frugal:"2,default,i32" json:"gender"`
+	Age        int32  `thrift:"age,3" frugal:"3,default,i32" json:"age"`
+	Region     string `thrift:"region,4" frugal:"4,default,string" json:"region"`
+	DeviceType string `thrift:"deviceType,5" frugal:"5,default,string" json:"deviceType"`
+	CreateTime string `thrift:"createTime,6" frugal:"6,default,string" json:"createTime"`
+	UpdateTime string `thrift:"updateTime,7" frugal:"7,default,string" json:"updateTime"`
+}
+
+func NewUserProfileBase() *UserProfileBase {
+	return &UserProfileBase{}
+}
+
+func (p *UserProfileBase) InitDefault() {
+}
+
+func (p *UserProfileBase) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *UserProfileBase) GetGender() (v int32) {
+	return p.Gender
+}
+
+func (p *UserProfileBase) GetAge() (v int32) {
+	return p.Age
+}
+
+func (p *UserProfileBase) GetRegion() (v string) {
+	return p.Region
+}
+
+func (p *UserProfileBase) GetDeviceType() (v string) {
+	return p.DeviceType
+}
+
+func (p *UserProfileBase) GetCreateTime() (v string) {
+	return p.CreateTime
+}
+
+func (p *UserProfileBase) GetUpdateTime() (v string) {
+	return p.UpdateTime
+}
+func (p *UserProfileBase) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *UserProfileBase) SetGender(val int32) {
+	p.Gender = val
+}
+func (p *UserProfileBase) SetAge(val int32) {
+	p.Age = val
+}
+func (p *UserProfileBase) SetRegion(val string) {
+	p.Region = val
+}
+func (p *UserProfileBase) SetDeviceType(val string) {
+	p.DeviceType = val
+}
+func (p *UserProfileBase) SetCreateTime(val string) {
+	p.CreateTime = val
+}
+func (p *UserProfileBase) SetUpdateTime(val string) {
+	p.UpdateTime = val
+}
+
+func (p *UserProfileBase) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UserProfileBase(%+v)", *p)
+}
+
+var fieldIDToName_UserProfileBase = map[int16]string{
+	1: "userId",
+	2: "gender",
+	3: "age",
+	4: "region",
+	5: "deviceType",
+	6: "createTime",
+	7: "updateTime",
 }
 
 type CreateUserProfileRequest struct {
-	UserId     int64  `thrift:"userId,1" json:"userId"`
-	Gender     int32  `thrift:"gender,2" json:"gender"`
-	Age        int32  `thrift:"age,3" json:"age"`
-	Region     string `thrift:"region,4" json:"region"`
-	DeviceType string `thrift:"deviceType,5" json:"deviceType"`
+	UserId     int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Gender     int32  `thrift:"gender,2" frugal:"2,default,i32" json:"gender"`
+	Age        int32  `thrift:"age,3" frugal:"3,default,i32" json:"age"`
+	Region     string `thrift:"region,4" frugal:"4,default,string" json:"region"`
+	DeviceType string `thrift:"deviceType,5" frugal:"5,default,string" json:"deviceType"`
+}
+
+func NewCreateUserProfileRequest() *CreateUserProfileRequest {
+	return &CreateUserProfileRequest{}
+}
+
+func (p *CreateUserProfileRequest) InitDefault() {
+}
+
+func (p *CreateUserProfileRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *CreateUserProfileRequest) GetGender() (v int32) {
+	return p.Gender
+}
+
+func (p *CreateUserProfileRequest) GetAge() (v int32) {
+	return p.Age
+}
+
+func (p *CreateUserProfileRequest) GetRegion() (v string) {
+	return p.Region
+}
+
+func (p *CreateUserProfileRequest) GetDeviceType() (v string) {
+	return p.DeviceType
+}
+func (p *CreateUserProfileRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *CreateUserProfileRequest) SetGender(val int32) {
+	p.Gender = val
+}
+func (p *CreateUserProfileRequest) SetAge(val int32) {
+	p.Age = val
+}
+func (p *CreateUserProfileRequest) SetRegion(val string) {
+	p.Region = val
+}
+func (p *CreateUserProfileRequest) SetDeviceType(val string) {
+	p.DeviceType = val
+}
+
+func (p *CreateUserProfileRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateUserProfileRequest(%+v)", *p)
+}
+
+var fieldIDToName_CreateUserProfileRequest = map[int16]string{
+	1: "userId",
+	2: "gender",
+	3: "age",
+	4: "region",
+	5: "deviceType",
 }
 
 type CreateUserProfileResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewCreateUserProfileResponse() *CreateUserProfileResponse {
+	return &CreateUserProfileResponse{}
+}
+
+func (p *CreateUserProfileResponse) InitDefault() {
+}
+
+var CreateUserProfileResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *CreateUserProfileResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return CreateUserProfileResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *CreateUserProfileResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *CreateUserProfileResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *CreateUserProfileResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateUserProfileResponse(%+v)", *p)
+}
+
+var fieldIDToName_CreateUserProfileResponse = map[int16]string{
+	1: "baseResp",
 }
 
 type UpdateUserProfileRequest struct {
-	UserId     int64   `thrift:"userId,1" json:"userId"`
-	Gender     *int32  `thrift:"gender,2,optional" json:"gender,omitempty"`
-	Age        *int32  `thrift:"age,3,optional" json:"age,omitempty"`
-	Region     *string `thrift:"region,4,optional" json:"region,omitempty"`
-	DeviceType *string `thrift:"deviceType,5,optional" json:"deviceType,omitempty"`
+	UserId     int64   `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Gender     *int32  `thrift:"gender,2,optional" frugal:"2,optional,i32" json:"gender,omitempty"`
+	Age        *int32  `thrift:"age,3,optional" frugal:"3,optional,i32" json:"age,omitempty"`
+	Region     *string `thrift:"region,4,optional" frugal:"4,optional,string" json:"region,omitempty"`
+	DeviceType *string `thrift:"deviceType,5,optional" frugal:"5,optional,string" json:"deviceType,omitempty"`
+}
+
+func NewUpdateUserProfileRequest() *UpdateUserProfileRequest {
+	return &UpdateUserProfileRequest{}
+}
+
+func (p *UpdateUserProfileRequest) InitDefault() {
+}
+
+func (p *UpdateUserProfileRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+var UpdateUserProfileRequest_Gender_DEFAULT int32
+
+func (p *UpdateUserProfileRequest) GetGender() (v int32) {
+	if !p.IsSetGender() {
+		return UpdateUserProfileRequest_Gender_DEFAULT
+	}
+	return *p.Gender
+}
+
+var UpdateUserProfileRequest_Age_DEFAULT int32
+
+func (p *UpdateUserProfileRequest) GetAge() (v int32) {
+	if !p.IsSetAge() {
+		return UpdateUserProfileRequest_Age_DEFAULT
+	}
+	return *p.Age
+}
+
+var UpdateUserProfileRequest_Region_DEFAULT string
+
+func (p *UpdateUserProfileRequest) GetRegion() (v string) {
+	if !p.IsSetRegion() {
+		return UpdateUserProfileRequest_Region_DEFAULT
+	}
+	return *p.Region
+}
+
+var UpdateUserProfileRequest_DeviceType_DEFAULT string
+
+func (p *UpdateUserProfileRequest) GetDeviceType() (v string) {
+	if !p.IsSetDeviceType() {
+		return UpdateUserProfileRequest_DeviceType_DEFAULT
+	}
+	return *p.DeviceType
+}
+func (p *UpdateUserProfileRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *UpdateUserProfileRequest) SetGender(val *int32) {
+	p.Gender = val
+}
+func (p *UpdateUserProfileRequest) SetAge(val *int32) {
+	p.Age = val
+}
+func (p *UpdateUserProfileRequest) SetRegion(val *string) {
+	p.Region = val
+}
+func (p *UpdateUserProfileRequest) SetDeviceType(val *string) {
+	p.DeviceType = val
+}
+
+func (p *UpdateUserProfileRequest) IsSetGender() bool {
+	return p.Gender != nil
+}
+
+func (p *UpdateUserProfileRequest) IsSetAge() bool {
+	return p.Age != nil
+}
+
+func (p *UpdateUserProfileRequest) IsSetRegion() bool {
+	return p.Region != nil
+}
+
+func (p *UpdateUserProfileRequest) IsSetDeviceType() bool {
+	return p.DeviceType != nil
+}
+
+func (p *UpdateUserProfileRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateUserProfileRequest(%+v)", *p)
+}
+
+var fieldIDToName_UpdateUserProfileRequest = map[int16]string{
+	1: "userId",
+	2: "gender",
+	3: "age",
+	4: "region",
+	5: "deviceType",
 }
 
 type UpdateUserProfileResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewUpdateUserProfileResponse() *UpdateUserProfileResponse {
+	return &UpdateUserProfileResponse{}
+}
+
+func (p *UpdateUserProfileResponse) InitDefault() {
+}
+
+var UpdateUserProfileResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *UpdateUserProfileResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return UpdateUserProfileResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *UpdateUserProfileResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *UpdateUserProfileResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *UpdateUserProfileResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateUserProfileResponse(%+v)", *p)
+}
+
+var fieldIDToName_UpdateUserProfileResponse = map[int16]string{
+	1: "baseResp",
 }
 
 type GetUserProfileRequest struct {
-	UserId int64 `thrift:"userId,1" json:"userId"`
+	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+}
+
+func NewGetUserProfileRequest() *GetUserProfileRequest {
+	return &GetUserProfileRequest{}
+}
+
+func (p *GetUserProfileRequest) InitDefault() {
+}
+
+func (p *GetUserProfileRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+func (p *GetUserProfileRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+
+func (p *GetUserProfileRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetUserProfileRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetUserProfileRequest = map[int16]string{
+	1: "userId",
 }
 
 type GetUserProfileResponse struct {
-	BaseResp    *BaseResponse    `thrift:"baseResp,1" json:"baseResp"`
-	UserProfile *UserProfileBase `thrift:"userProfile,2" json:"userProfile"`
+	BaseResp    *BaseResponse    `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	UserProfile *UserProfileBase `thrift:"userProfile,2" frugal:"2,default,UserProfileBase" json:"userProfile"`
+}
+
+func NewGetUserProfileResponse() *GetUserProfileResponse {
+	return &GetUserProfileResponse{}
+}
+
+func (p *GetUserProfileResponse) InitDefault() {
+}
+
+var GetUserProfileResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *GetUserProfileResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return GetUserProfileResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+var GetUserProfileResponse_UserProfile_DEFAULT *UserProfileBase
+
+func (p *GetUserProfileResponse) GetUserProfile() (v *UserProfileBase) {
+	if !p.IsSetUserProfile() {
+		return GetUserProfileResponse_UserProfile_DEFAULT
+	}
+	return p.UserProfile
+}
+func (p *GetUserProfileResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *GetUserProfileResponse) SetUserProfile(val *UserProfileBase) {
+	p.UserProfile = val
+}
+
+func (p *GetUserProfileResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetUserProfileResponse) IsSetUserProfile() bool {
+	return p.UserProfile != nil
+}
+
+func (p *GetUserProfileResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetUserProfileResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetUserProfileResponse = map[int16]string{
+	1: "baseResp",
+	2: "userProfile",
 }
 
 type DeleteUserProfileRequest struct {
-	UserId int64 `thrift:"userId,1" json:"userId"`
+	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+}
+
+func NewDeleteUserProfileRequest() *DeleteUserProfileRequest {
+	return &DeleteUserProfileRequest{}
+}
+
+func (p *DeleteUserProfileRequest) InitDefault() {
+}
+
+func (p *DeleteUserProfileRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+func (p *DeleteUserProfileRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+
+func (p *DeleteUserProfileRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteUserProfileRequest(%+v)", *p)
+}
+
+var fieldIDToName_DeleteUserProfileRequest = map[int16]string{
+	1: "userId",
 }
 
 type DeleteUserProfileResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewDeleteUserProfileResponse() *DeleteUserProfileResponse {
+	return &DeleteUserProfileResponse{}
+}
+
+func (p *DeleteUserProfileResponse) InitDefault() {
+}
+
+var DeleteUserProfileResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *DeleteUserProfileResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return DeleteUserProfileResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *DeleteUserProfileResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *DeleteUserProfileResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *DeleteUserProfileResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteUserProfileResponse(%+v)", *p)
+}
+
+var fieldIDToName_DeleteUserProfileResponse = map[int16]string{
+	1: "baseResp",
 }
 
 type UserInterest struct {
-	Id         int64   `thrift:"id,1" json:"id"`
-	UserId     int64   `thrift:"userId,2" json:"userId"`
-	Tag        string  `thrift:"tag,3" json:"tag"`
-	Weight     float64 `thrift:"weight,4" json:"weight"`
-	UpdateTime string  `thrift:"updateTime,5" json:"updateTime"`
+	Id         int64   `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	UserId     int64   `thrift:"userId,2" frugal:"2,default,i64" json:"userId"`
+	Tag        string  `thrift:"tag,3" frugal:"3,default,string" json:"tag"`
+	Weight     float64 `thrift:"weight,4" frugal:"4,default,double" json:"weight"`
+	UpdateTime string  `thrift:"updateTime,5" frugal:"5,default,string" json:"updateTime"`
+}
+
+func NewUserInterest() *UserInterest {
+	return &UserInterest{}
+}
+
+func (p *UserInterest) InitDefault() {
+}
+
+func (p *UserInterest) GetId() (v int64) {
+	return p.Id
+}
+
+func (p *UserInterest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *UserInterest) GetTag() (v string) {
+	return p.Tag
+}
+
+func (p *UserInterest) GetWeight() (v float64) {
+	return p.Weight
+}
+
+func (p *UserInterest) GetUpdateTime() (v string) {
+	return p.UpdateTime
+}
+func (p *UserInterest) SetId(val int64) {
+	p.Id = val
+}
+func (p *UserInterest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *UserInterest) SetTag(val string) {
+	p.Tag = val
+}
+func (p *UserInterest) SetWeight(val float64) {
+	p.Weight = val
+}
+func (p *UserInterest) SetUpdateTime(val string) {
+	p.UpdateTime = val
+}
+
+func (p *UserInterest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UserInterest(%+v)", *p)
+}
+
+var fieldIDToName_UserInterest = map[int16]string{
+	1: "id",
+	2: "userId",
+	3: "tag",
+	4: "weight",
+	5: "updateTime",
 }
 
 type AddUserInterestRequest struct {
-	UserId int64   `thrift:"userId,1" json:"userId"`
-	Tag    string  `thrift:"tag,2" json:"tag"`
-	Weight float64 `thrift:"weight,3" json:"weight"`
+	UserId int64   `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Tag    string  `thrift:"tag,2" frugal:"2,default,string" json:"tag"`
+	Weight float64 `thrift:"weight,3" frugal:"3,default,double" json:"weight"`
+}
+
+func NewAddUserInterestRequest() *AddUserInterestRequest {
+	return &AddUserInterestRequest{}
+}
+
+func (p *AddUserInterestRequest) InitDefault() {
+}
+
+func (p *AddUserInterestRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *AddUserInterestRequest) GetTag() (v string) {
+	return p.Tag
+}
+
+func (p *AddUserInterestRequest) GetWeight() (v float64) {
+	return p.Weight
+}
+func (p *AddUserInterestRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *AddUserInterestRequest) SetTag(val string) {
+	p.Tag = val
+}
+func (p *AddUserInterestRequest) SetWeight(val float64) {
+	p.Weight = val
+}
+
+func (p *AddUserInterestRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("AddUserInterestRequest(%+v)", *p)
+}
+
+var fieldIDToName_AddUserInterestRequest = map[int16]string{
+	1: "userId",
+	2: "tag",
+	3: "weight",
 }
 
 type AddUserInterestResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	Id       int64         `thrift:"id,2" json:"id"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	Id       int64         `thrift:"id,2" frugal:"2,default,i64" json:"id"`
+}
+
+func NewAddUserInterestResponse() *AddUserInterestResponse {
+	return &AddUserInterestResponse{}
+}
+
+func (p *AddUserInterestResponse) InitDefault() {
+}
+
+var AddUserInterestResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *AddUserInterestResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return AddUserInterestResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *AddUserInterestResponse) GetId() (v int64) {
+	return p.Id
+}
+func (p *AddUserInterestResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *AddUserInterestResponse) SetId(val int64) {
+	p.Id = val
+}
+
+func (p *AddUserInterestResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *AddUserInterestResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("AddUserInterestResponse(%+v)", *p)
+}
+
+var fieldIDToName_AddUserInterestResponse = map[int16]string{
+	1: "baseResp",
+	2: "id",
 }
 
 type UpdateUserInterestRequest struct {
-	Id     int64   `thrift:"id,1" json:"id"`
-	Weight float64 `thrift:"weight,2" json:"weight"`
+	Id     int64   `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+	Weight float64 `thrift:"weight,2" frugal:"2,default,double" json:"weight"`
+}
+
+func NewUpdateUserInterestRequest() *UpdateUserInterestRequest {
+	return &UpdateUserInterestRequest{}
+}
+
+func (p *UpdateUserInterestRequest) InitDefault() {
+}
+
+func (p *UpdateUserInterestRequest) GetId() (v int64) {
+	return p.Id
+}
+
+func (p *UpdateUserInterestRequest) GetWeight() (v float64) {
+	return p.Weight
+}
+func (p *UpdateUserInterestRequest) SetId(val int64) {
+	p.Id = val
+}
+func (p *UpdateUserInterestRequest) SetWeight(val float64) {
+	p.Weight = val
+}
+
+func (p *UpdateUserInterestRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateUserInterestRequest(%+v)", *p)
+}
+
+var fieldIDToName_UpdateUserInterestRequest = map[int16]string{
+	1: "id",
+	2: "weight",
 }
 
 type UpdateUserInterestResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewUpdateUserInterestResponse() *UpdateUserInterestResponse {
+	return &UpdateUserInterestResponse{}
+}
+
+func (p *UpdateUserInterestResponse) InitDefault() {
+}
+
+var UpdateUserInterestResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *UpdateUserInterestResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return UpdateUserInterestResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *UpdateUserInterestResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *UpdateUserInterestResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *UpdateUserInterestResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateUserInterestResponse(%+v)", *p)
+}
+
+var fieldIDToName_UpdateUserInterestResponse = map[int16]string{
+	1: "baseResp",
 }
 
 type GetUserInterestsRequest struct {
-	UserId int64 `thrift:"userId,1" json:"userId"`
+	UserId int64 `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+}
+
+func NewGetUserInterestsRequest() *GetUserInterestsRequest {
+	return &GetUserInterestsRequest{}
+}
+
+func (p *GetUserInterestsRequest) InitDefault() {
+}
+
+func (p *GetUserInterestsRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+func (p *GetUserInterestsRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+
+func (p *GetUserInterestsRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetUserInterestsRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetUserInterestsRequest = map[int16]string{
+	1: "userId",
 }
 
 type GetUserInterestsResponse struct {
-	BaseResp  *BaseResponse   `thrift:"baseResp,1" json:"baseResp"`
-	Interests []*UserInterest `thrift:"interests,2" json:"interests"`
+	BaseResp  *BaseResponse   `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	Interests []*UserInterest `thrift:"interests,2" frugal:"2,default,list<UserInterest>" json:"interests"`
+}
+
+func NewGetUserInterestsResponse() *GetUserInterestsResponse {
+	return &GetUserInterestsResponse{}
+}
+
+func (p *GetUserInterestsResponse) InitDefault() {
+}
+
+var GetUserInterestsResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *GetUserInterestsResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return GetUserInterestsResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *GetUserInterestsResponse) GetInterests() (v []*UserInterest) {
+	return p.Interests
+}
+func (p *GetUserInterestsResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *GetUserInterestsResponse) SetInterests(val []*UserInterest) {
+	p.Interests = val
+}
+
+func (p *GetUserInterestsResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetUserInterestsResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetUserInterestsResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetUserInterestsResponse = map[int16]string{
+	1: "baseResp",
+	2: "interests",
 }
 
 type DeleteUserInterestRequest struct {
-	Id int64 `thrift:"id,1" json:"id"`
+	Id int64 `thrift:"id,1" frugal:"1,default,i64" json:"id"`
+}
+
+func NewDeleteUserInterestRequest() *DeleteUserInterestRequest {
+	return &DeleteUserInterestRequest{}
+}
+
+func (p *DeleteUserInterestRequest) InitDefault() {
+}
+
+func (p *DeleteUserInterestRequest) GetId() (v int64) {
+	return p.Id
+}
+func (p *DeleteUserInterestRequest) SetId(val int64) {
+	p.Id = val
+}
+
+func (p *DeleteUserInterestRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteUserInterestRequest(%+v)", *p)
+}
+
+var fieldIDToName_DeleteUserInterestRequest = map[int16]string{
+	1: "id",
 }
 
 type DeleteUserInterestResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewDeleteUserInterestResponse() *DeleteUserInterestResponse {
+	return &DeleteUserInterestResponse{}
+}
+
+func (p *DeleteUserInterestResponse) InitDefault() {
+}
+
+var DeleteUserInterestResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *DeleteUserInterestResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return DeleteUserInterestResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *DeleteUserInterestResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *DeleteUserInterestResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *DeleteUserInterestResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteUserInterestResponse(%+v)", *p)
+}
+
+var fieldIDToName_DeleteUserInterestResponse = map[int16]string{
+	1: "baseResp",
 }

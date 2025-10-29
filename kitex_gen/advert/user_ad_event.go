@@ -2,50 +2,432 @@
 
 package advert
 
+import "fmt"
+
 type UserAdEvent struct {
-	EventId    int64  `thrift:"eventId,1" json:"eventId"`
-	UserId     int64  `thrift:"userId,2" json:"userId"`
-	CreativeId int64  `thrift:"creativeId,3" json:"creativeId"`
-	EventType  int32  `thrift:"eventType,4" json:"eventType"`
-	Ts         string `thrift:"ts,5" json:"ts"`
-	Extra      string `thrift:"extra,6" json:"extra"`
+	EventId    int64  `thrift:"eventId,1" frugal:"1,default,i64" json:"eventId"`
+	UserId     int64  `thrift:"userId,2" frugal:"2,default,i64" json:"userId"`
+	CreativeId int64  `thrift:"creativeId,3" frugal:"3,default,i64" json:"creativeId"`
+	EventType  int32  `thrift:"eventType,4" frugal:"4,default,i32" json:"eventType"`
+	Ts         string `thrift:"ts,5" frugal:"5,default,string" json:"ts"`
+	Extra      string `thrift:"extra,6" frugal:"6,default,string" json:"extra"`
+}
+
+func NewUserAdEvent() *UserAdEvent {
+	return &UserAdEvent{}
+}
+
+func (p *UserAdEvent) InitDefault() {
+}
+
+func (p *UserAdEvent) GetEventId() (v int64) {
+	return p.EventId
+}
+
+func (p *UserAdEvent) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *UserAdEvent) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+
+func (p *UserAdEvent) GetEventType() (v int32) {
+	return p.EventType
+}
+
+func (p *UserAdEvent) GetTs() (v string) {
+	return p.Ts
+}
+
+func (p *UserAdEvent) GetExtra() (v string) {
+	return p.Extra
+}
+func (p *UserAdEvent) SetEventId(val int64) {
+	p.EventId = val
+}
+func (p *UserAdEvent) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *UserAdEvent) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+func (p *UserAdEvent) SetEventType(val int32) {
+	p.EventType = val
+}
+func (p *UserAdEvent) SetTs(val string) {
+	p.Ts = val
+}
+func (p *UserAdEvent) SetExtra(val string) {
+	p.Extra = val
+}
+
+func (p *UserAdEvent) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UserAdEvent(%+v)", *p)
+}
+
+var fieldIDToName_UserAdEvent = map[int16]string{
+	1: "eventId",
+	2: "userId",
+	3: "creativeId",
+	4: "eventType",
+	5: "ts",
+	6: "extra",
 }
 
 type CreateAdEventRequest struct {
-	UserId     int64  `thrift:"userId,1" json:"userId"`
-	CreativeId int64  `thrift:"creativeId,2" json:"creativeId"`
-	EventType  int32  `thrift:"eventType,3" json:"eventType"`
-	Ts         string `thrift:"ts,4" json:"ts"`
-	Extra      string `thrift:"extra,5" json:"extra"`
+	UserId     int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	CreativeId int64  `thrift:"creativeId,2" frugal:"2,default,i64" json:"creativeId"`
+	EventType  int32  `thrift:"eventType,3" frugal:"3,default,i32" json:"eventType"`
+	Ts         string `thrift:"ts,4" frugal:"4,default,string" json:"ts"`
+	Extra      string `thrift:"extra,5" frugal:"5,default,string" json:"extra"`
+}
+
+func NewCreateAdEventRequest() *CreateAdEventRequest {
+	return &CreateAdEventRequest{}
+}
+
+func (p *CreateAdEventRequest) InitDefault() {
+}
+
+func (p *CreateAdEventRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *CreateAdEventRequest) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+
+func (p *CreateAdEventRequest) GetEventType() (v int32) {
+	return p.EventType
+}
+
+func (p *CreateAdEventRequest) GetTs() (v string) {
+	return p.Ts
+}
+
+func (p *CreateAdEventRequest) GetExtra() (v string) {
+	return p.Extra
+}
+func (p *CreateAdEventRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *CreateAdEventRequest) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+func (p *CreateAdEventRequest) SetEventType(val int32) {
+	p.EventType = val
+}
+func (p *CreateAdEventRequest) SetTs(val string) {
+	p.Ts = val
+}
+func (p *CreateAdEventRequest) SetExtra(val string) {
+	p.Extra = val
+}
+
+func (p *CreateAdEventRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateAdEventRequest(%+v)", *p)
+}
+
+var fieldIDToName_CreateAdEventRequest = map[int16]string{
+	1: "userId",
+	2: "creativeId",
+	3: "eventType",
+	4: "ts",
+	5: "extra",
 }
 
 type CreateAdEventResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	EventId  int64         `thrift:"eventId,2" json:"eventId"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	EventId  int64         `thrift:"eventId,2" frugal:"2,default,i64" json:"eventId"`
+}
+
+func NewCreateAdEventResponse() *CreateAdEventResponse {
+	return &CreateAdEventResponse{}
+}
+
+func (p *CreateAdEventResponse) InitDefault() {
+}
+
+var CreateAdEventResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *CreateAdEventResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return CreateAdEventResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *CreateAdEventResponse) GetEventId() (v int64) {
+	return p.EventId
+}
+func (p *CreateAdEventResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *CreateAdEventResponse) SetEventId(val int64) {
+	p.EventId = val
+}
+
+func (p *CreateAdEventResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *CreateAdEventResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateAdEventResponse(%+v)", *p)
+}
+
+var fieldIDToName_CreateAdEventResponse = map[int16]string{
+	1: "baseResp",
+	2: "eventId",
 }
 
 type GetUserAdEventsRequest struct {
-	UserId    int64  `thrift:"userId,1" json:"userId"`
-	Page      int32  `thrift:"page,2" json:"page"`
-	PageSize  int32  `thrift:"pageSize,3" json:"pageSize"`
-	EventType *int32 `thrift:"eventType,4,optional" json:"eventType,omitempty"`
+	UserId    int64  `thrift:"userId,1" frugal:"1,default,i64" json:"userId"`
+	Page      int32  `thrift:"page,2" frugal:"2,default,i32" json:"page"`
+	PageSize  int32  `thrift:"pageSize,3" frugal:"3,default,i32" json:"pageSize"`
+	EventType *int32 `thrift:"eventType,4,optional" frugal:"4,optional,i32" json:"eventType,omitempty"`
+}
+
+func NewGetUserAdEventsRequest() *GetUserAdEventsRequest {
+	return &GetUserAdEventsRequest{}
+}
+
+func (p *GetUserAdEventsRequest) InitDefault() {
+}
+
+func (p *GetUserAdEventsRequest) GetUserId() (v int64) {
+	return p.UserId
+}
+
+func (p *GetUserAdEventsRequest) GetPage() (v int32) {
+	return p.Page
+}
+
+func (p *GetUserAdEventsRequest) GetPageSize() (v int32) {
+	return p.PageSize
+}
+
+var GetUserAdEventsRequest_EventType_DEFAULT int32
+
+func (p *GetUserAdEventsRequest) GetEventType() (v int32) {
+	if !p.IsSetEventType() {
+		return GetUserAdEventsRequest_EventType_DEFAULT
+	}
+	return *p.EventType
+}
+func (p *GetUserAdEventsRequest) SetUserId(val int64) {
+	p.UserId = val
+}
+func (p *GetUserAdEventsRequest) SetPage(val int32) {
+	p.Page = val
+}
+func (p *GetUserAdEventsRequest) SetPageSize(val int32) {
+	p.PageSize = val
+}
+func (p *GetUserAdEventsRequest) SetEventType(val *int32) {
+	p.EventType = val
+}
+
+func (p *GetUserAdEventsRequest) IsSetEventType() bool {
+	return p.EventType != nil
+}
+
+func (p *GetUserAdEventsRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetUserAdEventsRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetUserAdEventsRequest = map[int16]string{
+	1: "userId",
+	2: "page",
+	3: "pageSize",
+	4: "eventType",
 }
 
 type GetUserAdEventsResponse struct {
-	BaseResp *BaseResponse  `thrift:"baseResp,1" json:"baseResp"`
-	Events   []*UserAdEvent `thrift:"events,2" json:"events"`
-	Total    int64          `thrift:"total,3" json:"total"`
+	BaseResp *BaseResponse  `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	Events   []*UserAdEvent `thrift:"events,2" frugal:"2,default,list<UserAdEvent>" json:"events"`
+	Total    int64          `thrift:"total,3" frugal:"3,default,i64" json:"total"`
+}
+
+func NewGetUserAdEventsResponse() *GetUserAdEventsResponse {
+	return &GetUserAdEventsResponse{}
+}
+
+func (p *GetUserAdEventsResponse) InitDefault() {
+}
+
+var GetUserAdEventsResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *GetUserAdEventsResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return GetUserAdEventsResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *GetUserAdEventsResponse) GetEvents() (v []*UserAdEvent) {
+	return p.Events
+}
+
+func (p *GetUserAdEventsResponse) GetTotal() (v int64) {
+	return p.Total
+}
+func (p *GetUserAdEventsResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *GetUserAdEventsResponse) SetEvents(val []*UserAdEvent) {
+	p.Events = val
+}
+func (p *GetUserAdEventsResponse) SetTotal(val int64) {
+	p.Total = val
+}
+
+func (p *GetUserAdEventsResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetUserAdEventsResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetUserAdEventsResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetUserAdEventsResponse = map[int16]string{
+	1: "baseResp",
+	2: "events",
+	3: "total",
 }
 
 type GetCreativeAdEventsRequest struct {
-	CreativeId int64  `thrift:"creativeId,1" json:"creativeId"`
-	Page       int32  `thrift:"page,2" json:"page"`
-	PageSize   int32  `thrift:"pageSize,3" json:"pageSize"`
-	EventType  *int32 `thrift:"eventType,4,optional" json:"eventType,omitempty"`
+	CreativeId int64  `thrift:"creativeId,1" frugal:"1,default,i64" json:"creativeId"`
+	Page       int32  `thrift:"page,2" frugal:"2,default,i32" json:"page"`
+	PageSize   int32  `thrift:"pageSize,3" frugal:"3,default,i32" json:"pageSize"`
+	EventType  *int32 `thrift:"eventType,4,optional" frugal:"4,optional,i32" json:"eventType,omitempty"`
+}
+
+func NewGetCreativeAdEventsRequest() *GetCreativeAdEventsRequest {
+	return &GetCreativeAdEventsRequest{}
+}
+
+func (p *GetCreativeAdEventsRequest) InitDefault() {
+}
+
+func (p *GetCreativeAdEventsRequest) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+
+func (p *GetCreativeAdEventsRequest) GetPage() (v int32) {
+	return p.Page
+}
+
+func (p *GetCreativeAdEventsRequest) GetPageSize() (v int32) {
+	return p.PageSize
+}
+
+var GetCreativeAdEventsRequest_EventType_DEFAULT int32
+
+func (p *GetCreativeAdEventsRequest) GetEventType() (v int32) {
+	if !p.IsSetEventType() {
+		return GetCreativeAdEventsRequest_EventType_DEFAULT
+	}
+	return *p.EventType
+}
+func (p *GetCreativeAdEventsRequest) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+func (p *GetCreativeAdEventsRequest) SetPage(val int32) {
+	p.Page = val
+}
+func (p *GetCreativeAdEventsRequest) SetPageSize(val int32) {
+	p.PageSize = val
+}
+func (p *GetCreativeAdEventsRequest) SetEventType(val *int32) {
+	p.EventType = val
+}
+
+func (p *GetCreativeAdEventsRequest) IsSetEventType() bool {
+	return p.EventType != nil
+}
+
+func (p *GetCreativeAdEventsRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetCreativeAdEventsRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetCreativeAdEventsRequest = map[int16]string{
+	1: "creativeId",
+	2: "page",
+	3: "pageSize",
+	4: "eventType",
 }
 
 type GetCreativeAdEventsResponse struct {
-	BaseResp *BaseResponse  `thrift:"baseResp,1" json:"baseResp"`
-	Events   []*UserAdEvent `thrift:"events,2" json:"events"`
-	Total    int64          `thrift:"total,3" json:"total"`
+	BaseResp *BaseResponse  `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	Events   []*UserAdEvent `thrift:"events,2" frugal:"2,default,list<UserAdEvent>" json:"events"`
+	Total    int64          `thrift:"total,3" frugal:"3,default,i64" json:"total"`
+}
+
+func NewGetCreativeAdEventsResponse() *GetCreativeAdEventsResponse {
+	return &GetCreativeAdEventsResponse{}
+}
+
+func (p *GetCreativeAdEventsResponse) InitDefault() {
+}
+
+var GetCreativeAdEventsResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *GetCreativeAdEventsResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return GetCreativeAdEventsResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *GetCreativeAdEventsResponse) GetEvents() (v []*UserAdEvent) {
+	return p.Events
+}
+
+func (p *GetCreativeAdEventsResponse) GetTotal() (v int64) {
+	return p.Total
+}
+func (p *GetCreativeAdEventsResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *GetCreativeAdEventsResponse) SetEvents(val []*UserAdEvent) {
+	p.Events = val
+}
+func (p *GetCreativeAdEventsResponse) SetTotal(val int64) {
+	p.Total = val
+}
+
+func (p *GetCreativeAdEventsResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetCreativeAdEventsResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetCreativeAdEventsResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetCreativeAdEventsResponse = map[int16]string{
+	1: "baseResp",
+	2: "events",
+	3: "total",
 }

@@ -2,70 +2,656 @@
 
 package advert
 
+import "fmt"
+
 type AdCreative struct {
-	CreativeId   int64  `thrift:"creativeId,1" json:"creativeId"`
-	PlanId       int64  `thrift:"planId,2" json:"planId"`
-	CreativeType int32  `thrift:"creativeType,3" json:"creativeType"`
-	MediaUrl     string `thrift:"mediaUrl,4" json:"mediaUrl"`
-	Title        string `thrift:"title,5" json:"title"`
-	Description  string `thrift:"description,6" json:"description"`
-	Status       int32  `thrift:"status,7" json:"status"`
-	CreateTime   string `thrift:"createTime,8" json:"createTime"`
-	UpdateTime   string `thrift:"updateTime,9" json:"updateTime"`
+	CreativeId   int64  `thrift:"creativeId,1" frugal:"1,default,i64" json:"creativeId"`
+	PlanId       int64  `thrift:"planId,2" frugal:"2,default,i64" json:"planId"`
+	CreativeType int32  `thrift:"creativeType,3" frugal:"3,default,i32" json:"creativeType"`
+	MediaUrl     string `thrift:"mediaUrl,4" frugal:"4,default,string" json:"mediaUrl"`
+	Title        string `thrift:"title,5" frugal:"5,default,string" json:"title"`
+	Description  string `thrift:"description,6" frugal:"6,default,string" json:"description"`
+	Status       int32  `thrift:"status,7" frugal:"7,default,i32" json:"status"`
+	CreateTime   string `thrift:"createTime,8" frugal:"8,default,string" json:"createTime"`
+	UpdateTime   string `thrift:"updateTime,9" frugal:"9,default,string" json:"updateTime"`
+}
+
+func NewAdCreative() *AdCreative {
+	return &AdCreative{}
+}
+
+func (p *AdCreative) InitDefault() {
+}
+
+func (p *AdCreative) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+
+func (p *AdCreative) GetPlanId() (v int64) {
+	return p.PlanId
+}
+
+func (p *AdCreative) GetCreativeType() (v int32) {
+	return p.CreativeType
+}
+
+func (p *AdCreative) GetMediaUrl() (v string) {
+	return p.MediaUrl
+}
+
+func (p *AdCreative) GetTitle() (v string) {
+	return p.Title
+}
+
+func (p *AdCreative) GetDescription() (v string) {
+	return p.Description
+}
+
+func (p *AdCreative) GetStatus() (v int32) {
+	return p.Status
+}
+
+func (p *AdCreative) GetCreateTime() (v string) {
+	return p.CreateTime
+}
+
+func (p *AdCreative) GetUpdateTime() (v string) {
+	return p.UpdateTime
+}
+func (p *AdCreative) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+func (p *AdCreative) SetPlanId(val int64) {
+	p.PlanId = val
+}
+func (p *AdCreative) SetCreativeType(val int32) {
+	p.CreativeType = val
+}
+func (p *AdCreative) SetMediaUrl(val string) {
+	p.MediaUrl = val
+}
+func (p *AdCreative) SetTitle(val string) {
+	p.Title = val
+}
+func (p *AdCreative) SetDescription(val string) {
+	p.Description = val
+}
+func (p *AdCreative) SetStatus(val int32) {
+	p.Status = val
+}
+func (p *AdCreative) SetCreateTime(val string) {
+	p.CreateTime = val
+}
+func (p *AdCreative) SetUpdateTime(val string) {
+	p.UpdateTime = val
+}
+
+func (p *AdCreative) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("AdCreative(%+v)", *p)
+}
+
+var fieldIDToName_AdCreative = map[int16]string{
+	1: "creativeId",
+	2: "planId",
+	3: "creativeType",
+	4: "mediaUrl",
+	5: "title",
+	6: "description",
+	7: "status",
+	8: "createTime",
+	9: "updateTime",
 }
 
 type CreateAdCreativeRequest struct {
-	PlanId       int64  `thrift:"planId,1" json:"planId"`
-	CreativeType int32  `thrift:"creativeType,2" json:"creativeType"`
-	MediaUrl     string `thrift:"mediaUrl,3" json:"mediaUrl"`
-	Title        string `thrift:"title,4" json:"title"`
-	Description  string `thrift:"description,5" json:"description"`
+	PlanId       int64  `thrift:"planId,1" frugal:"1,default,i64" json:"planId"`
+	CreativeType int32  `thrift:"creativeType,2" frugal:"2,default,i32" json:"creativeType"`
+	MediaUrl     string `thrift:"mediaUrl,3" frugal:"3,default,string" json:"mediaUrl"`
+	Title        string `thrift:"title,4" frugal:"4,default,string" json:"title"`
+	Description  string `thrift:"description,5" frugal:"5,default,string" json:"description"`
+}
+
+func NewCreateAdCreativeRequest() *CreateAdCreativeRequest {
+	return &CreateAdCreativeRequest{}
+}
+
+func (p *CreateAdCreativeRequest) InitDefault() {
+}
+
+func (p *CreateAdCreativeRequest) GetPlanId() (v int64) {
+	return p.PlanId
+}
+
+func (p *CreateAdCreativeRequest) GetCreativeType() (v int32) {
+	return p.CreativeType
+}
+
+func (p *CreateAdCreativeRequest) GetMediaUrl() (v string) {
+	return p.MediaUrl
+}
+
+func (p *CreateAdCreativeRequest) GetTitle() (v string) {
+	return p.Title
+}
+
+func (p *CreateAdCreativeRequest) GetDescription() (v string) {
+	return p.Description
+}
+func (p *CreateAdCreativeRequest) SetPlanId(val int64) {
+	p.PlanId = val
+}
+func (p *CreateAdCreativeRequest) SetCreativeType(val int32) {
+	p.CreativeType = val
+}
+func (p *CreateAdCreativeRequest) SetMediaUrl(val string) {
+	p.MediaUrl = val
+}
+func (p *CreateAdCreativeRequest) SetTitle(val string) {
+	p.Title = val
+}
+func (p *CreateAdCreativeRequest) SetDescription(val string) {
+	p.Description = val
+}
+
+func (p *CreateAdCreativeRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateAdCreativeRequest(%+v)", *p)
+}
+
+var fieldIDToName_CreateAdCreativeRequest = map[int16]string{
+	1: "planId",
+	2: "creativeType",
+	3: "mediaUrl",
+	4: "title",
+	5: "description",
 }
 
 type CreateAdCreativeResponse struct {
-	BaseResp   *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	CreativeId int64         `thrift:"creativeId,2" json:"creativeId"`
+	BaseResp   *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	CreativeId int64         `thrift:"creativeId,2" frugal:"2,default,i64" json:"creativeId"`
+}
+
+func NewCreateAdCreativeResponse() *CreateAdCreativeResponse {
+	return &CreateAdCreativeResponse{}
+}
+
+func (p *CreateAdCreativeResponse) InitDefault() {
+}
+
+var CreateAdCreativeResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *CreateAdCreativeResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return CreateAdCreativeResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *CreateAdCreativeResponse) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+func (p *CreateAdCreativeResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *CreateAdCreativeResponse) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+
+func (p *CreateAdCreativeResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *CreateAdCreativeResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("CreateAdCreativeResponse(%+v)", *p)
+}
+
+var fieldIDToName_CreateAdCreativeResponse = map[int16]string{
+	1: "baseResp",
+	2: "creativeId",
 }
 
 type UpdateAdCreativeRequest struct {
-	CreativeId   int64   `thrift:"creativeId,1" json:"creativeId"`
-	PlanId       *int64  `thrift:"planId,2,optional" json:"planId,omitempty"`
-	CreativeType *int32  `thrift:"creativeType,3,optional" json:"creativeType,omitempty"`
-	MediaUrl     *string `thrift:"mediaUrl,4,optional" json:"mediaUrl,omitempty"`
-	Title        *string `thrift:"title,5,optional" json:"title,omitempty"`
-	Description  *string `thrift:"description,6,optional" json:"description,omitempty"`
-	Status       *int32  `thrift:"status,7,optional" json:"status,omitempty"`
+	CreativeId   int64   `thrift:"creativeId,1" frugal:"1,default,i64" json:"creativeId"`
+	PlanId       *int64  `thrift:"planId,2,optional" frugal:"2,optional,i64" json:"planId,omitempty"`
+	CreativeType *int32  `thrift:"creativeType,3,optional" frugal:"3,optional,i32" json:"creativeType,omitempty"`
+	MediaUrl     *string `thrift:"mediaUrl,4,optional" frugal:"4,optional,string" json:"mediaUrl,omitempty"`
+	Title        *string `thrift:"title,5,optional" frugal:"5,optional,string" json:"title,omitempty"`
+	Description  *string `thrift:"description,6,optional" frugal:"6,optional,string" json:"description,omitempty"`
+	Status       *int32  `thrift:"status,7,optional" frugal:"7,optional,i32" json:"status,omitempty"`
+}
+
+func NewUpdateAdCreativeRequest() *UpdateAdCreativeRequest {
+	return &UpdateAdCreativeRequest{}
+}
+
+func (p *UpdateAdCreativeRequest) InitDefault() {
+}
+
+func (p *UpdateAdCreativeRequest) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+
+var UpdateAdCreativeRequest_PlanId_DEFAULT int64
+
+func (p *UpdateAdCreativeRequest) GetPlanId() (v int64) {
+	if !p.IsSetPlanId() {
+		return UpdateAdCreativeRequest_PlanId_DEFAULT
+	}
+	return *p.PlanId
+}
+
+var UpdateAdCreativeRequest_CreativeType_DEFAULT int32
+
+func (p *UpdateAdCreativeRequest) GetCreativeType() (v int32) {
+	if !p.IsSetCreativeType() {
+		return UpdateAdCreativeRequest_CreativeType_DEFAULT
+	}
+	return *p.CreativeType
+}
+
+var UpdateAdCreativeRequest_MediaUrl_DEFAULT string
+
+func (p *UpdateAdCreativeRequest) GetMediaUrl() (v string) {
+	if !p.IsSetMediaUrl() {
+		return UpdateAdCreativeRequest_MediaUrl_DEFAULT
+	}
+	return *p.MediaUrl
+}
+
+var UpdateAdCreativeRequest_Title_DEFAULT string
+
+func (p *UpdateAdCreativeRequest) GetTitle() (v string) {
+	if !p.IsSetTitle() {
+		return UpdateAdCreativeRequest_Title_DEFAULT
+	}
+	return *p.Title
+}
+
+var UpdateAdCreativeRequest_Description_DEFAULT string
+
+func (p *UpdateAdCreativeRequest) GetDescription() (v string) {
+	if !p.IsSetDescription() {
+		return UpdateAdCreativeRequest_Description_DEFAULT
+	}
+	return *p.Description
+}
+
+var UpdateAdCreativeRequest_Status_DEFAULT int32
+
+func (p *UpdateAdCreativeRequest) GetStatus() (v int32) {
+	if !p.IsSetStatus() {
+		return UpdateAdCreativeRequest_Status_DEFAULT
+	}
+	return *p.Status
+}
+func (p *UpdateAdCreativeRequest) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+func (p *UpdateAdCreativeRequest) SetPlanId(val *int64) {
+	p.PlanId = val
+}
+func (p *UpdateAdCreativeRequest) SetCreativeType(val *int32) {
+	p.CreativeType = val
+}
+func (p *UpdateAdCreativeRequest) SetMediaUrl(val *string) {
+	p.MediaUrl = val
+}
+func (p *UpdateAdCreativeRequest) SetTitle(val *string) {
+	p.Title = val
+}
+func (p *UpdateAdCreativeRequest) SetDescription(val *string) {
+	p.Description = val
+}
+func (p *UpdateAdCreativeRequest) SetStatus(val *int32) {
+	p.Status = val
+}
+
+func (p *UpdateAdCreativeRequest) IsSetPlanId() bool {
+	return p.PlanId != nil
+}
+
+func (p *UpdateAdCreativeRequest) IsSetCreativeType() bool {
+	return p.CreativeType != nil
+}
+
+func (p *UpdateAdCreativeRequest) IsSetMediaUrl() bool {
+	return p.MediaUrl != nil
+}
+
+func (p *UpdateAdCreativeRequest) IsSetTitle() bool {
+	return p.Title != nil
+}
+
+func (p *UpdateAdCreativeRequest) IsSetDescription() bool {
+	return p.Description != nil
+}
+
+func (p *UpdateAdCreativeRequest) IsSetStatus() bool {
+	return p.Status != nil
+}
+
+func (p *UpdateAdCreativeRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateAdCreativeRequest(%+v)", *p)
+}
+
+var fieldIDToName_UpdateAdCreativeRequest = map[int16]string{
+	1: "creativeId",
+	2: "planId",
+	3: "creativeType",
+	4: "mediaUrl",
+	5: "title",
+	6: "description",
+	7: "status",
 }
 
 type UpdateAdCreativeResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewUpdateAdCreativeResponse() *UpdateAdCreativeResponse {
+	return &UpdateAdCreativeResponse{}
+}
+
+func (p *UpdateAdCreativeResponse) InitDefault() {
+}
+
+var UpdateAdCreativeResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *UpdateAdCreativeResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return UpdateAdCreativeResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *UpdateAdCreativeResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *UpdateAdCreativeResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *UpdateAdCreativeResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("UpdateAdCreativeResponse(%+v)", *p)
+}
+
+var fieldIDToName_UpdateAdCreativeResponse = map[int16]string{
+	1: "baseResp",
 }
 
 type GetAdCreativeRequest struct {
-	CreativeId int64 `thrift:"creativeId,1" json:"creativeId"`
+	CreativeId int64 `thrift:"creativeId,1" frugal:"1,default,i64" json:"creativeId"`
+}
+
+func NewGetAdCreativeRequest() *GetAdCreativeRequest {
+	return &GetAdCreativeRequest{}
+}
+
+func (p *GetAdCreativeRequest) InitDefault() {
+}
+
+func (p *GetAdCreativeRequest) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+func (p *GetAdCreativeRequest) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+
+func (p *GetAdCreativeRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetAdCreativeRequest(%+v)", *p)
+}
+
+var fieldIDToName_GetAdCreativeRequest = map[int16]string{
+	1: "creativeId",
 }
 
 type GetAdCreativeResponse struct {
-	BaseResp   *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	AdCreative *AdCreative   `thrift:"adCreative,2" json:"adCreative"`
+	BaseResp   *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	AdCreative *AdCreative   `thrift:"adCreative,2" frugal:"2,default,AdCreative" json:"adCreative"`
+}
+
+func NewGetAdCreativeResponse() *GetAdCreativeResponse {
+	return &GetAdCreativeResponse{}
+}
+
+func (p *GetAdCreativeResponse) InitDefault() {
+}
+
+var GetAdCreativeResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *GetAdCreativeResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return GetAdCreativeResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+var GetAdCreativeResponse_AdCreative_DEFAULT *AdCreative
+
+func (p *GetAdCreativeResponse) GetAdCreative() (v *AdCreative) {
+	if !p.IsSetAdCreative() {
+		return GetAdCreativeResponse_AdCreative_DEFAULT
+	}
+	return p.AdCreative
+}
+func (p *GetAdCreativeResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *GetAdCreativeResponse) SetAdCreative(val *AdCreative) {
+	p.AdCreative = val
+}
+
+func (p *GetAdCreativeResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *GetAdCreativeResponse) IsSetAdCreative() bool {
+	return p.AdCreative != nil
+}
+
+func (p *GetAdCreativeResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("GetAdCreativeResponse(%+v)", *p)
+}
+
+var fieldIDToName_GetAdCreativeResponse = map[int16]string{
+	1: "baseResp",
+	2: "adCreative",
 }
 
 type ListAdCreativesRequest struct {
-	Page     int32  `thrift:"page,1" json:"page"`
-	PageSize int32  `thrift:"pageSize,2" json:"pageSize"`
-	PlanId   *int64 `thrift:"planId,3,optional" json:"planId,omitempty"`
+	Page     int32  `thrift:"page,1" frugal:"1,default,i32" json:"page"`
+	PageSize int32  `thrift:"pageSize,2" frugal:"2,default,i32" json:"pageSize"`
+	PlanId   *int64 `thrift:"planId,3,optional" frugal:"3,optional,i64" json:"planId,omitempty"`
+}
+
+func NewListAdCreativesRequest() *ListAdCreativesRequest {
+	return &ListAdCreativesRequest{}
+}
+
+func (p *ListAdCreativesRequest) InitDefault() {
+}
+
+func (p *ListAdCreativesRequest) GetPage() (v int32) {
+	return p.Page
+}
+
+func (p *ListAdCreativesRequest) GetPageSize() (v int32) {
+	return p.PageSize
+}
+
+var ListAdCreativesRequest_PlanId_DEFAULT int64
+
+func (p *ListAdCreativesRequest) GetPlanId() (v int64) {
+	if !p.IsSetPlanId() {
+		return ListAdCreativesRequest_PlanId_DEFAULT
+	}
+	return *p.PlanId
+}
+func (p *ListAdCreativesRequest) SetPage(val int32) {
+	p.Page = val
+}
+func (p *ListAdCreativesRequest) SetPageSize(val int32) {
+	p.PageSize = val
+}
+func (p *ListAdCreativesRequest) SetPlanId(val *int64) {
+	p.PlanId = val
+}
+
+func (p *ListAdCreativesRequest) IsSetPlanId() bool {
+	return p.PlanId != nil
+}
+
+func (p *ListAdCreativesRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ListAdCreativesRequest(%+v)", *p)
+}
+
+var fieldIDToName_ListAdCreativesRequest = map[int16]string{
+	1: "page",
+	2: "pageSize",
+	3: "planId",
 }
 
 type ListAdCreativesResponse struct {
-	BaseResp    *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
-	AdCreatives []*AdCreative `thrift:"adCreatives,2" json:"adCreatives"`
-	Total       int64         `thrift:"total,3" json:"total"`
+	BaseResp    *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+	AdCreatives []*AdCreative `thrift:"adCreatives,2" frugal:"2,default,list<AdCreative>" json:"adCreatives"`
+	Total       int64         `thrift:"total,3" frugal:"3,default,i64" json:"total"`
+}
+
+func NewListAdCreativesResponse() *ListAdCreativesResponse {
+	return &ListAdCreativesResponse{}
+}
+
+func (p *ListAdCreativesResponse) InitDefault() {
+}
+
+var ListAdCreativesResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *ListAdCreativesResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return ListAdCreativesResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+
+func (p *ListAdCreativesResponse) GetAdCreatives() (v []*AdCreative) {
+	return p.AdCreatives
+}
+
+func (p *ListAdCreativesResponse) GetTotal() (v int64) {
+	return p.Total
+}
+func (p *ListAdCreativesResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+func (p *ListAdCreativesResponse) SetAdCreatives(val []*AdCreative) {
+	p.AdCreatives = val
+}
+func (p *ListAdCreativesResponse) SetTotal(val int64) {
+	p.Total = val
+}
+
+func (p *ListAdCreativesResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *ListAdCreativesResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("ListAdCreativesResponse(%+v)", *p)
+}
+
+var fieldIDToName_ListAdCreativesResponse = map[int16]string{
+	1: "baseResp",
+	2: "adCreatives",
+	3: "total",
 }
 
 type DeleteAdCreativeRequest struct {
-	CreativeId int64 `thrift:"creativeId,1" json:"creativeId"`
+	CreativeId int64 `thrift:"creativeId,1" frugal:"1,default,i64" json:"creativeId"`
+}
+
+func NewDeleteAdCreativeRequest() *DeleteAdCreativeRequest {
+	return &DeleteAdCreativeRequest{}
+}
+
+func (p *DeleteAdCreativeRequest) InitDefault() {
+}
+
+func (p *DeleteAdCreativeRequest) GetCreativeId() (v int64) {
+	return p.CreativeId
+}
+func (p *DeleteAdCreativeRequest) SetCreativeId(val int64) {
+	p.CreativeId = val
+}
+
+func (p *DeleteAdCreativeRequest) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteAdCreativeRequest(%+v)", *p)
+}
+
+var fieldIDToName_DeleteAdCreativeRequest = map[int16]string{
+	1: "creativeId",
 }
 
 type DeleteAdCreativeResponse struct {
-	BaseResp *BaseResponse `thrift:"baseResp,1" json:"baseResp"`
+	BaseResp *BaseResponse `thrift:"baseResp,1" frugal:"1,default,BaseResponse" json:"baseResp"`
+}
+
+func NewDeleteAdCreativeResponse() *DeleteAdCreativeResponse {
+	return &DeleteAdCreativeResponse{}
+}
+
+func (p *DeleteAdCreativeResponse) InitDefault() {
+}
+
+var DeleteAdCreativeResponse_BaseResp_DEFAULT *BaseResponse
+
+func (p *DeleteAdCreativeResponse) GetBaseResp() (v *BaseResponse) {
+	if !p.IsSetBaseResp() {
+		return DeleteAdCreativeResponse_BaseResp_DEFAULT
+	}
+	return p.BaseResp
+}
+func (p *DeleteAdCreativeResponse) SetBaseResp(val *BaseResponse) {
+	p.BaseResp = val
+}
+
+func (p *DeleteAdCreativeResponse) IsSetBaseResp() bool {
+	return p.BaseResp != nil
+}
+
+func (p *DeleteAdCreativeResponse) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("DeleteAdCreativeResponse(%+v)", *p)
+}
+
+var fieldIDToName_DeleteAdCreativeResponse = map[int16]string{
+	1: "baseResp",
 }
