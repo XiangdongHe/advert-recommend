@@ -2,7 +2,6 @@ package main
 
 import (
 	"AdvertRecommend/kitex_gen/advert"
-	"context"
 	"fmt"
 	"log"
 )
@@ -98,42 +97,3 @@ func main() {
 
 // 以下是实际使用 Kitex 客户端的示例代码框架
 // 需要先使用 kitex 工具生成客户端代码
-
-/*
-import (
-	"AdvertRecommend/kitex_gen/advert"
-	"AdvertRecommend/kitex_gen/advert/advertservice"
-	"context"
-	"log"
-	"github.com/cloudwego/kitex/client"
-)
-
-func realClientExample() {
-	// 创建客户端
-	c, err := advertservice.NewClient(
-		"advertservice",
-		client.WithHostPorts("127.0.0.1:8888"),
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	// 调用创建广告计划接口
-	req := &advert.CreateAdPlanRequest{
-		Name:          "测试广告计划",
-		Objective:     "click",
-		Budget:        10000.00,
-		BidPrice:      "CPC:0.5",
-		TargetingRule: `{"region":["北京","上海"]}`,
-		StartTime:     "2024-01-01 00:00:00",
-		EndTime:       "2024-03-31 23:59:59",
-	}
-
-	resp, err := c.CreateAdPlan(context.Background(), req)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	log.Printf("Response: %+v", resp)
-}
-*/

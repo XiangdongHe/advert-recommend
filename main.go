@@ -31,11 +31,6 @@ func main() {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
 
-	// 自动迁移数据库表结构（可选，生产环境建议手动管理）
-	// if err := database.AutoMigrate(); err != nil {
-	//     log.Fatalf("Failed to migrate database: %v", err)
-	// }
-
 	// 创建服务处理器
 	impl := handler.NewAdvertServiceImpl()
 

@@ -33,7 +33,7 @@ func GetDefaultConfig() *Config {
 			Host:     "localhost",
 			Port:     3306,
 			User:     "root",
-			Password: "your_password",
+			Password: "123456",
 			DBName:   "advert_recommend",
 			Charset:  "utf8mb4",
 		},
