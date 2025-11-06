@@ -98,17 +98,62 @@ func (s *AdCreativeService) DeleteAdCreative(creativeID int64) error {
 
 // 获取推荐广告列表
 func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreative, int64, error) {
-	var creatives []*models.AdCreative
+	var ansCreatives []*models.AdCreative
 	var total int64
 	// TODO 完成广告推荐的逻辑
+	// 提取用户的基本信息
+	var user models.UserProfileBase
+	if err := database.DB.Where("user_id = ?", userId).First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return nil, 0, errors.New("user not found")
+		}
+		return nil, 0, err
+	}
+	var userInterests []*models.UserProfileInterest
+	if err := database.DB.Where("user_id = ?", userId).Find(&userInterests).Error; err != nil {
+		return nil, 0, err
+	}
+	// 提取用户兴趣标签
+	var tags []string
+	for _, ui := range userInterests {
+		tags = append(tags, ui.Tag)
+	}
 
 	// 1.基于规则匹配到的广告集合
-
+	interestAdCreative, err := GetInterestAdCreative(userInterests)
 	// 2.基于内容匹配到的广告集合
 
 	// 3.基于协同过滤匹配到的广告集合
 
 	// 4.基于向量召回匹配到的广告集合
 
-	return creatives, total, nil
+	return ansCreatives, total, nil
+}
+
+func GetInterestAdCreative(userInterests []*models.UserProfileInterest) ([]*models.AdCreative, error) {
+	var adCreatives []*models.AdCreative
+	// 查出符合兴趣的广告计划 ID
+	query := database.DB.Model(&models.AdPlan{})
+	for i, it := range userInterests {
+		if i == 0 {
+			query = query.Where("targeting_rule LIKE ?", "%"+it.Tag+"%")
+		} else {
+			query = query.Or("targeting_rule LIKE ?", "%"+it.Tag+"%")
+		}
+	}
+	var planIDs []int64
+	if err := query.Pluck("plan_id", &planIDs).Error; err != nil {
+		return nil, err
+	}
+
+	if len(planIDs) == 0 {
+		return adCreatives, nil
+	}
+
+	// 查出这些计划对应的广告创意
+	if err := database.DB.Where("plan_id IN ?", planIDs).
+		Where("status = ?", 1).Find(&adCreatives).Error; err != nil {
+		return nil, err
+	}
+	return adCreatives, nil
 }
