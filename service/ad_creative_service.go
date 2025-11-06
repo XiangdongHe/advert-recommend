@@ -102,5 +102,13 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 	var total int64
 	// TODO 完成广告推荐的逻辑
 
+	// 1.基于规则匹配到的广告集合
+
+	// 2.基于内容匹配到的广告集合
+
+	// 3.基于协同过滤匹配到的广告集合
+
+	// 4.基于向量召回匹配到的广告集合
+
 	return creatives, total, nil
 }
