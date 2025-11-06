@@ -95,3 +95,12 @@ func (s *AdCreativeService) DeleteAdCreative(creativeID int64) error {
 
 	return nil
 }
+
+// 获取推荐广告列表
+func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreative, int64, error) {
+	var creatives []*models.AdCreative
+	var total int64
+	// TODO 完成广告推荐的逻辑
+
+	return creatives, total, nil
+}

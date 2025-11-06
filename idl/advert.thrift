@@ -297,6 +297,17 @@ struct GetCreativeAdEventsResponse {
     3: i64 total
 }
 
+// 广告查询相关
+struct GetAdvertRecommendRequest {
+    1: i64 userId
+}
+
+struct GetAdvertRecommendResponse {
+    1: BaseResponse baseResp
+    2: list<AdCreative> adverts
+    3: i64 total
+}
+
 // ==================== 服务定义 ====================
 service AdvertService {
     // 广告计划 CRUD
@@ -325,7 +336,7 @@ service AdvertService {
     GetUserInterestsResponse GetUserInterests(1: GetUserInterestsRequest req)
     DeleteUserInterestResponse DeleteUserInterest(1: DeleteUserInterestRequest req)
     
-    // 用户行为日志
+    // 用户行为日志 暂时用不到
     CreateAdEventResponse CreateAdEvent(1: CreateAdEventRequest req)
     GetUserAdEventsResponse GetUserAdEvents(1: GetUserAdEventsRequest req)
     GetCreativeAdEventsResponse GetCreativeAdEvents(1: GetCreativeAdEventsRequest req)

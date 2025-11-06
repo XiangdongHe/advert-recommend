@@ -34,6 +34,8 @@ type AdvertService interface {
 	CreateAdEvent(ctx context.Context, req *CreateAdEventRequest) (*CreateAdEventResponse, error)
 	GetUserAdEvents(ctx context.Context, req *GetUserAdEventsRequest) (*GetUserAdEventsResponse, error)
 	GetCreativeAdEvents(ctx context.Context, req *GetCreativeAdEventsRequest) (*GetCreativeAdEventsResponse, error)
+
+	GetAdvertRecommend(ctx context.Context, req *GetAdvertRecommendRequest) (*GetAdvertRecommendResponse, error)
 }
 
 type AdvertServiceCreateAdPlanArgs struct {
@@ -1629,5 +1631,81 @@ func (p *AdvertServiceGetCreativeAdEventsResult) String() string {
 }
 
 var fieldIDToName_AdvertServiceGetCreativeAdEventsResult = map[int16]string{
+	0: "success",
+}
+
+type AdvertServiceGetAdvertRecommendArgs struct {
+	Req *GetAdvertRecommendRequest `thrift:"req,1" frugal:"1,default,GetCreativeAdEventsRequest" json:"req"`
+}
+
+func NewAdvertServiceGetAdvertRecommendArgs() *AdvertServiceGetCreativeAdEventsArgs {
+	return &AdvertServiceGetCreativeAdEventsArgs{}
+}
+
+func (p *AdvertServiceGetAdvertRecommendArgs) InitDefault() {
+}
+
+var AdvertServiceGetAdvertRecommendArgs_Req_DEFAULT *GetAdvertRecommendRequest
+
+func (p *AdvertServiceGetAdvertRecommendArgs) GetReq() (v *GetAdvertRecommendRequest) {
+	if !p.IsSetReq() {
+		return AdvertServiceGetAdvertRecommendArgs_Req_DEFAULT
+	}
+	return p.Req
+}
+func (p *AdvertServiceGetAdvertRecommendArgs) SetReq(val *GetAdvertRecommendRequest) {
+	p.Req = val
+}
+
+func (p *AdvertServiceGetAdvertRecommendArgs) IsSetReq() bool {
+	return p.Req != nil
+}
+
+func (p *AdvertServiceGetAdvertRecommendArgs) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("AdvertServiceGetAdvertRecommendArgs(%+v)", *p)
+}
+
+var fieldIDToName_AdvertServiceGetAdvertRecommendArgs = map[int16]string{
+	1: "req",
+}
+
+type AdvertServiceGetAdvertRecommendResult struct {
+	Success *GetAdvertRecommendResponse `thrift:"success,0,optional" frugal:"0,optional,GetAdvertRecommendResponse" json:"success,omitempty"`
+}
+
+func NewAdvertServiceGetAdvertRecommendResult() *GetAdvertRecommendResponse {
+	return &GetAdvertRecommendResponse{}
+}
+
+func (p *AdvertServiceGetAdvertRecommendResult) InitDefault() {
+}
+
+var AdvertServiceGetAdvertRecommendResult_Success_DEFAULT *GetAdvertRecommendResponse
+
+func (p *AdvertServiceGetAdvertRecommendResult) GetSuccess() (v *GetAdvertRecommendResponse) {
+	if !p.IsSetSuccess() {
+		return AdvertServiceGetAdvertRecommendResult_Success_DEFAULT
+	}
+	return p.Success
+}
+func (p *AdvertServiceGetAdvertRecommendResult) SetSuccess(x interface{}) {
+	p.Success = x.(*GetAdvertRecommendResponse)
+}
+
+func (p *AdvertServiceGetAdvertRecommendResult) IsSetSuccess() bool {
+	return p.Success != nil
+}
+
+func (p *AdvertServiceGetAdvertRecommendResult) String() string {
+	if p == nil {
+		return "<nil>"
+	}
+	return fmt.Sprintf("AdvertServiceGetAdvertRecommendResult(%+v)", *p)
+}
+
+var fieldIDToName_AdvertServiceGetAdvertRecommendResult = map[int16]string{
 	0: "success",
 }
