@@ -210,10 +210,10 @@ func GetInterestAdPlans(userInterests []*models.UserProfileInterest) ([]*models.
 }
 
 type TargetingRule struct {
-	Age     string `json:"age"`
-	Device  string `json:"device"`
-	Region  string `json:"region"`
-	Interst string `json:"interest"`
+	Age      string `json:"age"`
+	Device   string `json:"device"`
+	Region   string `json:"region"`
+	Interest string `json:"interest"`
 }
 
 // 筛选广告计划

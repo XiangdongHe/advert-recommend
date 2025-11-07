@@ -145,8 +145,8 @@ interest_sql.close()
 # ----------------------------
 # 5 生成用户行为日志
 # ----------------------------
-interest_sql = open("user_event.sql", "w", encoding="utf-8")
-interest_sql.write("INSERT INTO user_ad_event_log (user_id, creative_id, event_type, ts) VALUES\n")
+user_event_sql = open("user_event.sql", "w", encoding="utf-8")
+user_event_sql.write("INSERT INTO user_ad_event_log (user_id, creative_id, event_type, ts) VALUES\n")
 
 cnt = 0
 for i in range(10000):
@@ -154,7 +154,25 @@ for i in range(10000):
     creative_id = random.randint(1, 7516)
     event_type = random.randint(1, 3)
 
-    interest_sql.write(f"({uid}, {creative_id}, {event_type}, NOW()),")
-interest_sql.close()
+    user_event_sql.write(f"({uid}, {creative_id}, {event_type}, NOW()),")
+user_event_sql.close()
+
+
+# ----------------------------
+# 6 生成用户关系日志
+# ----------------------------
+user_friend_sql = open("t_user_friend.sql", "w", encoding="utf-8")
+user_friend_sql.write("INSERT INTO t_user_friend (user_id, friend_id, closeness) VALUES\n")
+
+for i in range(1000):
+    user_id = random.randint(1001, 1100)
+    friend_id = random.randint(1001, 1100)
+    if user_id == friend_id:
+        i -= 1
+        continue
+    closeness = round(random.uniform(0.2, 0.8), 2)
+
+    user_friend_sql.write(f"({user_id}, {friend_id}, {closeness}),")
+user_friend_sql.close()
 
 print("✅ SQL 数据文件生成完毕：")
