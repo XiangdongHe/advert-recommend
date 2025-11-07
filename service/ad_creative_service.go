@@ -5,7 +5,9 @@ import (
 	"AdvertRecommend/models"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"sort"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -131,6 +133,9 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 
 	// 4.基于向量召回匹配到的广告集合
 
+	// 筛选
+	ansAdPlans = FilterAdPlansByUser(ansAdPlans, user.Region, int(user.Age))
+
 	// 根据兴趣权重进行粗排
 	interestWeight := make(map[string]float64)
 	for _, ui := range userInterests {
@@ -202,4 +207,43 @@ func GetInterestAdPlans(userInterests []*models.UserProfileInterest) ([]*models.
 	}
 
 	return adPlans, nil
+}
+
+type TargetingRule struct {
+	Age     string `json:"age"`
+	Device  string `json:"device"`
+	Region  string `json:"region"`
+	Interst string `json:"interest"`
+}
+
+// 筛选广告计划
+func FilterAdPlansByUser(plans []*models.AdPlan, userRegion string, userAge int) []*models.AdPlan {
+	var result []*models.AdPlan
+
+	for _, plan := range plans {
+		var rule TargetingRule
+		if err := json.Unmarshal([]byte(plan.TargetingRule), &rule); err != nil {
+			continue
+		}
+
+		matchRegion := rule.Region == "" || strings.Contains(userRegion, rule.Region) || strings.Contains(rule.Region, userRegion)
+
+		// 年龄匹配
+		matchAge := false
+		if rule.Age != "" {
+			var minAge, maxAge int
+			fmt.Sscanf(rule.Age, "%d-%d", &minAge, &maxAge)
+			if userAge >= minAge && userAge <= maxAge {
+				matchAge = true
+			}
+		} else {
+			matchAge = true // 无年龄限制
+		}
+
+		if matchRegion && matchAge {
+			result = append(result, plan)
+		}
+	}
+
+	return result
 }
