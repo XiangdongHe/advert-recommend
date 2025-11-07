@@ -167,5 +167,7 @@ func convertAdCreative(creative *models.AdCreative) *advert.AdCreative {
 		Status:       creative.Status,
 		CreateTime:   creative.CreateTime.Format("2006-01-02 15:04:05"),
 		UpdateTime:   creative.UpdateTime.Format("2006-01-02 15:04:05"),
+
+		Weight: creative.Weight,
 	}
 }

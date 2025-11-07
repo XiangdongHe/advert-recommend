@@ -15,6 +15,9 @@ type AdCreative struct {
 	Status       int32     `gorm:"type:tinyint;not null;default:1;column:status" json:"status"`
 	CreateTime   time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP;column:create_time" json:"create_time"`
 	UpdateTime   time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;column:update_time" json:"update_time"`
+
+	// 不映射数据库，只用来承载查询结果
+	Weight float64 `gorm:"-" json:"weight"`
 }
 
 // TableName 指定表名

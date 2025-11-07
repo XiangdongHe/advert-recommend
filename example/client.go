@@ -78,8 +78,8 @@ func createAdPlanExample() {
 
 		fmt.Println("\n📢 推荐广告创意列表：")
 		for _, ad := range getRcResp.Adverts {
-			fmt.Printf("- 创意ID: %d | 类型: %d | 标题: %s | 描述: %s | 媒体URL: %s\n",
-				ad.CreativeId, ad.CreativeType, ad.Title, ad.Description, ad.MediaUrl)
+			fmt.Printf("- 创意ID: %d | 类型: %d | 标题: %s | 描述: %s | 媒体URL: %s | 分值：%.2f\n ",
+				ad.CreativeId, ad.CreativeType, ad.Title, ad.Description, ad.MediaUrl, ad.Weight)
 		}
 	}
 }

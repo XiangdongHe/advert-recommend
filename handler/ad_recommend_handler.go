@@ -21,8 +21,8 @@ func (s *AdvertServiceImpl) GetAdvertRecommend(ctx context.Context, req *advert.
 	}
 
 	adCreatives := make([]*advert.AdCreative, 0, len(creatives))
-	for _, plan := range creatives {
-		adCreatives = append(adCreatives, convertAdCreative(plan))
+	for _, ad := range creatives {
+		adCreatives = append(adCreatives, convertAdCreative(ad))
 	}
 
 	return &advert.GetAdvertRecommendResponse{

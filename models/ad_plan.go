@@ -17,6 +17,9 @@ type AdPlan struct {
 	Status        int32     `gorm:"type:tinyint;not null;default:1;column:status;comment:1=active,0=paused,2=ended" json:"status"`
 	CreateTime    time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP;column:create_time" json:"create_time"`
 	UpdateTime    time.Time `gorm:"type:datetime;default:CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;column:update_time" json:"update_time"`
+
+	// 不映射数据库，只用来承载查询结果
+	Creatives []*AdCreative `gorm:"-" json:"creatives"`
 }
 
 // TableName 指定表名

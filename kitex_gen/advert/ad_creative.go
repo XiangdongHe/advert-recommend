@@ -14,6 +14,8 @@ type AdCreative struct {
 	Status       int32  `thrift:"status,7" frugal:"7,default,i32" json:"status"`
 	CreateTime   string `thrift:"createTime,8" frugal:"8,default,string" json:"createTime"`
 	UpdateTime   string `thrift:"updateTime,9" frugal:"9,default,string" json:"updateTime"`
+
+	Weight float64 `thrift:"weight,10" frugal:"10,default,double" json:"weight"`
 }
 
 func NewAdCreative() *AdCreative {
@@ -58,6 +60,10 @@ func (p *AdCreative) GetCreateTime() (v string) {
 func (p *AdCreative) GetUpdateTime() (v string) {
 	return p.UpdateTime
 }
+
+func (p *AdCreative) GetWeight() (v float64) {
+	return p.Weight
+}
 func (p *AdCreative) SetCreativeId(val int64) {
 	p.CreativeId = val
 }
@@ -86,6 +92,9 @@ func (p *AdCreative) SetUpdateTime(val string) {
 	p.UpdateTime = val
 }
 
+func (p *AdCreative) SetWeight(val float64) {
+	p.Weight = val
+}
 func (p *AdCreative) String() string {
 	if p == nil {
 		return "<nil>"
@@ -94,15 +103,16 @@ func (p *AdCreative) String() string {
 }
 
 var fieldIDToName_AdCreative = map[int16]string{
-	1: "creativeId",
-	2: "planId",
-	3: "creativeType",
-	4: "mediaUrl",
-	5: "title",
-	6: "description",
-	7: "status",
-	8: "createTime",
-	9: "updateTime",
+	1:  "creativeId",
+	2:  "planId",
+	3:  "creativeType",
+	4:  "mediaUrl",
+	5:  "title",
+	6:  "description",
+	7:  "status",
+	8:  "createTime",
+	9:  "updateTime",
+	10: "weight",
 }
 
 type CreateAdCreativeRequest struct {
