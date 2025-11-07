@@ -8,7 +8,15 @@
 - **IDL**: Thrift
 - **ORM**: GORM
 - **数据库**: MySQL 8.0+
-- **Go版本**: 1.23+
+- **Go版本**: 1.19
+
+## 推荐思路
+### 实现流程
+![推荐流程](doc/image/实现流程梳理.png)
+### 技术方案
+![技术方案](doc/image/技术方案梳理.png)
+### 代码流程
+![代码流程](doc/image/代码流程.png)
 
 ## 项目结构
 
@@ -258,7 +266,7 @@ kitex -module AdvertRecommend -service advertservice idl/advert.thrift
 ## 1. 环境准备
 
 ### 安装 Go
-确保安装了 Go 1.23 或更高版本：
+确保安装了 Go 1.19，其他版本是否有BUG不清楚，亲测1.23运行不了：
 ```bash
 go version
 ```
