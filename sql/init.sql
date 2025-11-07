@@ -13504,4 +13504,12 @@ INSERT INTO user_profile_interest (user_id, tag, weight) VALUES
 (1100, '动画解析', 0.926);
 
 
+UPDATE t_ad_creative c
+JOIN t_ad_plan p ON c.plan_id = p.plan_id
+SET c.description = CONCAT(
+    '广告描述_',
+    JSON_UNQUOTE(JSON_EXTRACT(p.targeting_rule, '$.interest')),
+    '_',
+    JSON_UNQUOTE(JSON_EXTRACT(p.targeting_rule, '$.region'))
+);
 
