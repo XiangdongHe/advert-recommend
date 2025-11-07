@@ -120,7 +120,8 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 	}
 
 	// 1.基于规则匹配到的广告集合
-	interestAdCreative, err := GetInterestAdCreative(userInterests)
+	interestAdCreative, _ := GetInterestAdCreative(userInterests)
+	ansCreatives = append(ansCreatives, interestAdCreative...)
 	// 2.基于内容匹配到的广告集合
 
 	// 3.基于协同过滤匹配到的广告集合

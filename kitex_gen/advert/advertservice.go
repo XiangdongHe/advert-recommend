@@ -1635,11 +1635,11 @@ var fieldIDToName_AdvertServiceGetCreativeAdEventsResult = map[int16]string{
 }
 
 type AdvertServiceGetAdvertRecommendArgs struct {
-	Req *GetAdvertRecommendRequest `thrift:"req,1" frugal:"1,default,GetCreativeAdEventsRequest" json:"req"`
+	Req *GetAdvertRecommendRequest `thrift:"req,1" frugal:"1,default,GetAdvertRecommendRequest" json:"req"`
 }
 
-func NewAdvertServiceGetAdvertRecommendArgs() *AdvertServiceGetCreativeAdEventsArgs {
-	return &AdvertServiceGetCreativeAdEventsArgs{}
+func NewAdvertServiceGetAdvertRecommendArgs() *AdvertServiceGetAdvertRecommendArgs {
+	return &AdvertServiceGetAdvertRecommendArgs{}
 }
 
 func (p *AdvertServiceGetAdvertRecommendArgs) InitDefault() {
@@ -1676,8 +1676,8 @@ type AdvertServiceGetAdvertRecommendResult struct {
 	Success *GetAdvertRecommendResponse `thrift:"success,0,optional" frugal:"0,optional,GetAdvertRecommendResponse" json:"success,omitempty"`
 }
 
-func NewAdvertServiceGetAdvertRecommendResult() *GetAdvertRecommendResponse {
-	return &GetAdvertRecommendResponse{}
+func NewAdvertServiceGetAdvertRecommendResult() *AdvertServiceGetAdvertRecommendResult {
+	return &AdvertServiceGetAdvertRecommendResult{}
 }
 
 func (p *AdvertServiceGetAdvertRecommendResult) InitDefault() {
