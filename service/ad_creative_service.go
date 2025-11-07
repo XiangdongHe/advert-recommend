@@ -162,7 +162,7 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 		return ansCreatives[i].Weight > ansCreatives[j].Weight
 	})
 
-	// TODO 根据点击、浏览、点赞模型预测，进行粗排
+	// TODO 根据CTR模型预测，进行粗排
 
 	return ansCreatives, total, nil
 }
@@ -237,7 +237,7 @@ func FilterAdPlansByUser(plans []*models.AdPlan, userRegion string, userAge int)
 				matchAge = true
 			}
 		} else {
-			matchAge = true // 无年龄限制
+			matchAge = true
 		}
 
 		if matchRegion && matchAge {

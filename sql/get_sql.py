@@ -142,8 +142,19 @@ for uid in range(1001, 1001 + NUM_USERS):
         interest_sql.write(",\n" if cnt < NUM_USERS * INTEREST_PER_USER else ";\n")
 interest_sql.close()
 
+# ----------------------------
+# 5 生成用户行为日志
+# ----------------------------
+interest_sql = open("user_event.sql", "w", encoding="utf-8")
+interest_sql.write("INSERT INTO user_ad_event_log (user_id, creative_id, event_type, ts) VALUES\n")
+
+cnt = 0
+for i in range(10000):
+    uid = random.randint(1001, 1100)
+    creative_id = random.randint(1, 7516)
+    event_type = random.randint(1, 3)
+
+    interest_sql.write(f"({uid}, {creative_id}, {event_type}, NOW()),")
+interest_sql.close()
+
 print("✅ SQL 数据文件生成完毕：")
-print(" - ad_plan.sql")
-print(" - ad_creative.sql")
-print(" - user_profile.sql")
-print(" - user_interest.sql")
