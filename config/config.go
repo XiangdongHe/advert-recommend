@@ -2,8 +2,9 @@ package config
 
 // Config 应用配置
 type Config struct {
-	Server   ServerConfig   `json:"server"`
-	Database DatabaseConfig `json:"database"`
+	Server          ServerConfig    `json:"server"`
+	Database        DatabaseConfig  `json:"database"`
+	RecommendConfig RecommendConfig `json:"recommend"`
 }
 
 // ServerConfig 服务器配置
@@ -22,6 +23,10 @@ type DatabaseConfig struct {
 	Charset  string `json:"charset"`
 }
 
+type RecommendConfig struct {
+	CollaborativeCount int32 `json:"collaborativeCount"`
+}
+
 // GetDefaultConfig 获取默认配置
 func GetDefaultConfig() *Config {
 	return &Config{
@@ -37,5 +42,10 @@ func GetDefaultConfig() *Config {
 			DBName:   "advert_recommend",
 			Charset:  "utf8mb4",
 		},
+		RecommendConfig: RecommendConfig{
+			CollaborativeCount: 5,
+		},
 	}
 }
+
+var Global *Config

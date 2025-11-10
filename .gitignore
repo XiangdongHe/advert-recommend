@@ -42,7 +42,6 @@ build/
 dist/
 bin/
 AdvertRecommend
-advertservice
 
 # Temporary files
 tmp/

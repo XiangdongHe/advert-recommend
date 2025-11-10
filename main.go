@@ -15,6 +15,7 @@ import (
 func main() {
 	// 加载配置
 	cfg := config.GetDefaultConfig()
+	config.Global = cfg
 	log.Printf("Starting AdvertRecommend Service...")
 
 	// 初始化数据库

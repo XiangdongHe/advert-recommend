@@ -84,10 +84,18 @@ CREATE TABLE `t_user_friend`  (
 
 -- 规范化数据
 UPDATE t_ad_creative c
-    JOIN t_ad_plan p ON c.plan_id = p.plan_id
-    SET c.description = CONCAT(
-        '广告描述_',
-        JSON_UNQUOTE(JSON_EXTRACT(p.targeting_rule, '$.interest')),
-        '_',
-        JSON_UNQUOTE(JSON_EXTRACT(p.targeting_rule, '$.region'))
-        );
+JOIN t_ad_plan p ON c.plan_id = p.plan_id
+SET c.description = CONCAT(
+    '广告描述_',
+    JSON_UNQUOTE(JSON_EXTRACT(p.targeting_rule, '$.interest')),
+    '_',
+    JSON_UNQUOTE(JSON_EXTRACT(p.targeting_rule, '$.region'))
+);
+
+
+-- 协同过滤测试数据
+INSERT INTO user_profile_base(user_id, gender, age, region, device_type, create_time, update_time)
+VALUES (1101, 1, 25, '上海', 'iPhone', NOW(), NOW());
+
+INSERT INTO t_user_friend(user_id, friend_id, closeness)
+VALUES (1101, 1001, 0.9), (1101, 1002, 0.1);
