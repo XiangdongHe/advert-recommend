@@ -39,25 +39,25 @@ func createAdPlanExample() {
 			fmt.Println("⚠️ 输入无效，请输入数字类型的用户ID。")
 			continue
 		}
-		// 查询用户兴趣
-		getReq := &advert.GetUserInterestsRequest{
-			UserId: userId,
-		}
-		getResp, err := c.GetUserInterests(context.Background(), getReq)
-		if err != nil {
-			log.Printf("❌ 查询用户兴趣失败: %v", err)
-			continue
-		}
-		// 打印用户兴趣信息
-		if len(getResp.Interests) == 0 {
-			fmt.Println("⚠️ 暂无兴趣信息。")
-			continue
-		}
-
-		fmt.Println("\n📢 用户兴趣信息：")
-		for _, interst := range getResp.Interests {
-			fmt.Printf("%s、", interst.Tag)
-		}
+		//// 查询用户兴趣
+		//getReq := &advert.GetUserInterestsRequest{
+		//	UserId: userId,
+		//}
+		//getResp, err := c.GetUserInterests(context.Background(), getReq)
+		//if err != nil {
+		//	log.Printf("❌ 查询用户兴趣失败: %v", err)
+		//	continue
+		//}
+		//// 打印用户兴趣信息
+		//if len(getResp.Interests) == 0 {
+		//	fmt.Println("⚠️ 暂无兴趣信息。")
+		//	continue
+		//}
+		//
+		//fmt.Println("\n📢 用户兴趣信息：")
+		//for _, interst := range getResp.Interests {
+		//	fmt.Printf("%s、", interst.Tag)
+		//}
 
 		// 查询广告推荐
 		getRcReq := &advert.GetAdvertRecommendRequest{

@@ -612,9 +612,9 @@ func newAdvertServiceGetCreativeAdEventsResult() interface{} {
 }
 
 func getAdvertRecommendHandler(ctx context.Context, handler interface{}, arg, result interface{}) error {
-	realArg := arg.(*advert.AdvertServiceGetCreativeAdEventsArgs)
-	realResult := result.(*advert.AdvertServiceGetCreativeAdEventsResult)
-	success, err := handler.(advert.AdvertService).GetCreativeAdEvents(ctx, realArg.Req)
+	realArg := arg.(*advert.AdvertServiceGetAdvertRecommendArgs)
+	realResult := result.(*advert.AdvertServiceGetAdvertRecommendResult)
+	success, err := handler.(advert.AdvertService).GetAdvertRecommend(ctx, realArg.Req)
 	if err != nil {
 		return err
 	}
