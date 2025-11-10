@@ -4,14 +4,18 @@ import (
 	"AdvertRecommend/config"
 	"AdvertRecommend/database"
 	"AdvertRecommend/models"
+	"AdvertRecommend/utils"
 	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log"
 	"sort"
+	"strconv"
 	"strings"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 )
 
@@ -110,33 +114,35 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 	var total int64
 	// TODO 完成广告推荐的逻辑
 	// 提取用户的基本信息
+	t1 := utils.StartTiming("GetUserProfileBaseCached")
 	userInfo, _ := GetUserProfileBaseCached(userId)
+	t1.End()
+	t2 := utils.StartTiming("GetUserInterestsCached")
 	userInterests, _ := GetUserInterestsCached(userId)
-	// 基于协同过滤匹配扩充用户兴趣爱好
+	t2.End()
+	// 1. 基于协同过滤匹配扩充用户兴趣爱好
+	t3 := utils.StartTiming("GetCollaborativeInterests")
 	collaborativeInterests, _ := GetCollaborativeInterests(userId)
+	t3.End()
+	t4 := utils.StartTiming("MergeInterests")
 	allInterests := MergeInterests(userInterests, collaborativeInterests)
-	// 提取用户兴趣标签
-	var tags []string
-	for _, ui := range allInterests {
-		tags = append(tags, ui.Tag)
-	}
-
-	// 1.基于规则匹配到的广告集合
-	interestAdPlans, _ := GetInterestAdPlans(allInterests)
+	t4.End()
+	// 2. 基于规则匹配到的广告集合
+	t5 := utils.StartTiming("GetInterestAdPlansCachedV2")
+	interestAdPlans, _ := GetInterestAdPlansCachedV2(allInterests)
+	t5.End()
 	ansAdPlans = append(ansAdPlans, interestAdPlans...)
-	// 2.基于内容匹配到的广告集合-感觉意义不大，暂不考虑
-
-	// 3.基于协同过滤匹配到的广告集合-在上方已完成，根据朋友关系拿到TopN兴趣，然后去查询广告计划
-
-	// 4.基于向量召回匹配到的广告集合
-
+	// TODO 3.基于内容匹配到的广告集合-感觉意义不大，暂不考虑
+	// TODO 4.基于向量召回匹配到的广告集合
 	// 筛选
+	t6 := utils.StartTiming("FilterAdPlansByUser")
 	ansAdPlans = FilterAdPlansByUser(ansAdPlans, userInfo.Region, int(userInfo.Age))
+	t6.End()
 	// 根据兴趣权重进行粗排
+	t7 := utils.StartTiming("SortAdPlansByInterest")
 	ansCreatives = SortAdPlansByInterest(ansAdPlans, allInterests)
-
+	t7.End()
 	// TODO 根据CTR模型预测，进行粗排
-
 	return ansCreatives, total, nil
 }
 
@@ -186,45 +192,144 @@ func GetUserInterestsCached(userId int64) ([]*models.UserProfileInterest, error)
 	return interests, nil
 }
 
-func GetInterestAdPlans(userInterests []*models.UserProfileInterest) ([]*models.AdPlan, error) {
-	var adPlans []*models.AdPlan
+func GetInterestAdPlansCachedV1(userInterests []*models.UserProfileInterest) ([]*models.AdPlan, error) {
+	ctx := context.Background()
 
-	// 查出符合兴趣的广告计划
-	query := database.DB.Model(&models.AdPlan{})
+	// 批量取所有 interest -> plan 集合
+	pipe := database.RDB.Pipeline()
+	cmds := make([]*redis.StringSliceCmd, len(userInterests))
 	for i, it := range userInterests {
-		if i == 0 {
-			query = query.Where("targeting_rule LIKE ?", "%"+it.Tag+"%")
-		} else {
-			query = query.Or("targeting_rule LIKE ?", "%"+it.Tag+"%")
+		cmds[i] = pipe.SMembers(ctx, fmt.Sprintf("interest:%s", it.Tag))
+	}
+	_, err := pipe.Exec(ctx)
+	if err != nil {
+		return nil, err
+	}
+
+	// 合并所有 PlanID
+	planIDSet := make(map[int64]struct{})
+	for _, cmd := range cmds {
+		ids, _ := cmd.Result()
+		for _, idStr := range ids {
+			id, _ := strconv.ParseInt(idStr, 10, 64)
+			planIDSet[id] = struct{}{}
 		}
 	}
-	if err := query.Where("status = ?", 1).Find(&adPlans).Error; err != nil {
+	if len(planIDSet) == 0 {
+		return nil, nil
+	}
+
+	// Pipeline 批量 MGET 广告计划
+	var planKeys []string
+	for id := range planIDSet {
+		planKeys = append(planKeys, fmt.Sprintf("ad:plan:%d", id))
+	}
+
+	pipe = database.RDB.Pipeline()
+	mgetCmds := make([]*redis.StringCmd, len(planKeys))
+	for i, k := range planKeys {
+		mgetCmds[i] = pipe.Get(ctx, k)
+	}
+	_, err = pipe.Exec(ctx)
+	if err != nil {
 		return nil, err
 	}
-	if len(adPlans) == 0 {
-		return adPlans, nil
+
+	var adPlans []*models.AdPlan
+	for _, cmd := range mgetCmds {
+		data, _ := cmd.Result()
+		if data == "" {
+			continue
+		}
+		var plan models.AdPlan
+		if err := json.Unmarshal([]byte(data), &plan); err == nil && plan.Status == 1 {
+			adPlans = append(adPlans, &plan)
+		}
 	}
 
-	// 查出所有相关广告创意
-	var planIDs []int64
-	for _, p := range adPlans {
-		planIDs = append(planIDs, p.PlanID)
+	// Pipeline 批量取创意
+	pipe = database.RDB.Pipeline()
+	creativeCmds := make([]*redis.StringSliceCmd, len(adPlans))
+	for i, plan := range adPlans {
+		creativeCmds[i] = pipe.SMembers(ctx, fmt.Sprintf("ad:plan:%d:creatives", plan.PlanID))
 	}
-	var adCreatives []*models.AdCreative
-	if err := database.DB.Where("plan_id IN ?", planIDs).
-		Where("status = ?", 1).Find(&adCreatives).Error; err != nil {
-		return nil, err
+	_, _ = pipe.Exec(ctx)
+
+	for i, plan := range adPlans {
+		cids, _ := creativeCmds[i].Result()
+		if len(cids) == 0 {
+			continue
+		}
+
+		// 再次使用 pipeline 批量取创意详情
+		subPipe := database.RDB.Pipeline()
+		subCmds := make([]*redis.StringCmd, len(cids))
+		for j, cid := range cids {
+			subCmds[j] = subPipe.Get(ctx, fmt.Sprintf("ad:creative:%s", cid))
+		}
+		_, _ = subPipe.Exec(ctx)
+		for _, cmd := range subCmds {
+			val, _ := cmd.Result()
+			if val == "" {
+				continue
+			}
+			var c models.AdCreative
+			if err := json.Unmarshal([]byte(val), &c); err == nil && c.Status == 1 {
+				plan.Creatives = append(plan.Creatives, &c)
+			}
+		}
 	}
 
-	// 将广告创意分配给对应的计划
-	creativeMap := make(map[int64][]*models.AdCreative)
-	for _, c := range adCreatives {
-		creativeMap[c.PlanID] = append(creativeMap[c.PlanID], c)
+	return adPlans, nil
+}
+
+const getInterestAdPlansLua = `
+local result = {}
+local planIDSet = {}
+for i, tag in ipairs(ARGV) do
+    local key = "interest:" .. tag
+    local planIDs = redis.call("SMEMBERS", key)
+    for _, pid in ipairs(planIDs) do
+        planIDSet[pid] = true
+    end
+end
+for pid, _ in pairs(planIDSet) do
+    local planJSON = redis.call("GET", "ad:plan:" .. pid)
+    if planJSON then
+        table.insert(result, planJSON)
+    end
+end
+return result
+`
+
+func GetInterestAdPlansCachedV2(userInterests []*models.UserProfileInterest) ([]*models.AdPlan, error) {
+	ctx := context.Background()
+
+	args := make([]interface{}, len(userInterests))
+	for i, t := range userInterests {
+		args[i] = t.Tag
 	}
-	for _, plan := range adPlans {
-		plan.Creatives = creativeMap[plan.PlanID]
+	res, err := database.RDB.Eval(ctx, getInterestAdPlansLua, []string{}, args...).Result()
+	if err != nil {
+		log.Fatalf("Redis Lua eval failed: %v", err)
+	}
+	adPlans := []*models.AdPlan{}
+	items, ok := res.([]interface{})
+	if !ok {
+		return nil, fmt.Errorf("unexpected type: %T", res)
 	}
 
+	for _, item := range items {
+		str, ok := item.(string)
+		if !ok {
+			continue
+		}
+
+		var plan models.AdPlan
+		if err := json.Unmarshal([]byte(str), &plan); err == nil {
+			adPlans = append(adPlans, &plan)
+		}
+	}
 	return adPlans, nil
 }
 

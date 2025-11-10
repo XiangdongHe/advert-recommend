@@ -65,10 +65,11 @@ func InitDB(config Config) error {
 
 func InitRedis() error {
 	RDB = redis.NewClient(&redis.Options{
-		Addr:     "121.43.149.193:6379",
-		Password: "h545466093",
-		DB:       0,
-		PoolSize: 50,
+		Addr:         "127.0.0.1:6379",
+		Password:     "h545466093",
+		DB:           0,
+		PoolSize:     50,
+		MinIdleConns: 10,
 	})
 	if err := RDB.Ping(context.Background()).Err(); err != nil {
 		return fmt.Errorf("failed to connect redis: %v", err)
