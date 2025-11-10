@@ -102,7 +102,7 @@ func pressure() {
 	success := int64(0)
 	failed := int64(0)
 	totalCount := 10000
-	c := 10
+	c := 20
 
 	fmt.Printf("开始压测 RPC 接口: PredictCTR, 地址: %s, 并发: %d, 请求总数: %d\n", "127.0.0.1:8888", c, totalCount)
 
