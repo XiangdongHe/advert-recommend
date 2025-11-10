@@ -4,11 +4,13 @@ import (
 	"AdvertRecommend/config"
 	"AdvertRecommend/database"
 	"AdvertRecommend/models"
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"sort"
 	"strings"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -108,17 +110,8 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 	var total int64
 	// TODO 完成广告推荐的逻辑
 	// 提取用户的基本信息
-	var user models.UserProfileBase
-	if err := database.DB.Where("user_id = ?", userId).First(&user).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, 0, errors.New("user not found")
-		}
-		return nil, 0, err
-	}
-	var userInterests []*models.UserProfileInterest
-	if err := database.DB.Where("user_id = ?", userId).Find(&userInterests).Error; err != nil {
-		return nil, 0, err
-	}
+	userInfo, _ := GetUserProfileBaseCached(userId)
+	userInterests, _ := GetUserInterestsCached(userId)
 	// 基于协同过滤匹配扩充用户兴趣爱好
 	collaborativeInterests, _ := GetCollaborativeInterests(userId)
 	allInterests := MergeInterests(userInterests, collaborativeInterests)
@@ -138,13 +131,59 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 	// 4.基于向量召回匹配到的广告集合
 
 	// 筛选
-	ansAdPlans = FilterAdPlansByUser(ansAdPlans, user.Region, int(user.Age))
+	ansAdPlans = FilterAdPlansByUser(ansAdPlans, userInfo.Region, int(userInfo.Age))
 	// 根据兴趣权重进行粗排
 	ansCreatives = SortAdPlansByInterest(ansAdPlans, allInterests)
 
 	// TODO 根据CTR模型预测，进行粗排
 
 	return ansCreatives, total, nil
+}
+
+func GetUserProfileBaseCached(userId int64) (*models.UserProfileBase, error) {
+	key := fmt.Sprintf("user:profile:%d", userId)
+	var user models.UserProfileBase
+	ctx := context.Background()
+	// 尝试从 Redis 取
+	val, err := database.RDB.Get(ctx, key).Result()
+	if err == nil {
+		if err := json.Unmarshal([]byte(val), &user); err == nil {
+			return &user, nil
+		}
+	}
+	// 缓存未命中 → 访问数据库
+	if err := database.DB.Where("user_id = ?", userId).First(&user).Error; err != nil {
+		return nil, err
+	}
+	// 写入缓存
+	data, _ := json.Marshal(user)
+	database.RDB.Set(ctx, key, data, time.Hour)
+	return &user, nil
+}
+
+func GetUserInterestsCached(userId int64) ([]*models.UserProfileInterest, error) {
+	key := fmt.Sprintf("user:interests:%d", userId)
+	ctx := context.Background()
+	var interests []*models.UserProfileInterest
+
+	// Redis
+	val, err := database.RDB.Get(ctx, key).Result()
+	if err == nil {
+		if err := json.Unmarshal([]byte(val), &interests); err == nil {
+			return interests, nil
+		}
+	}
+
+	// DB
+	if err := database.DB.Where("user_id = ?", userId).Find(&interests).Error; err != nil {
+		return nil, err
+	}
+
+	// 缓存
+	data, _ := json.Marshal(interests)
+	database.RDB.Set(ctx, key, data, 30*time.Minute)
+
+	return interests, nil
 }
 
 func GetInterestAdPlans(userInterests []*models.UserProfileInterest) ([]*models.AdPlan, error) {

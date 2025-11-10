@@ -2,16 +2,19 @@ package database
 
 import (
 	"AdvertRecommend/models"
+	"context"
 	"fmt"
 	"log"
 	"time"
 
+	"github.com/go-redis/redis/v8"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
 )
 
 var DB *gorm.DB
+var RDB *redis.Client
 
 // Config 数据库配置
 type Config struct {
@@ -57,6 +60,19 @@ func InitDB(config Config) error {
 	sqlDB.SetConnMaxLifetime(time.Hour)
 
 	log.Println("Database connected successfully")
+	return nil
+}
+
+func InitRedis() error {
+	RDB = redis.NewClient(&redis.Options{
+		Addr:     "121.43.149.193:6379",
+		Password: "h545466093",
+		DB:       0,
+		PoolSize: 50,
+	})
+	if err := RDB.Ping(context.Background()).Err(); err != nil {
+		return fmt.Errorf("failed to connect redis: %v", err)
+	}
 	return nil
 }
 

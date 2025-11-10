@@ -32,6 +32,10 @@ func main() {
 		log.Fatalf("Failed to initialize database: %v", err)
 	}
 
+	if err := database.InitRedis(); err != nil {
+		log.Fatalf("Failed to initialize redis: %v", err)
+	}
+
 	// 创建服务处理器
 	impl := handler.NewAdvertServiceImpl()
 
