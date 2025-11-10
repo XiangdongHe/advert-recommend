@@ -135,32 +135,8 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 
 	// 筛选
 	ansAdPlans = FilterAdPlansByUser(ansAdPlans, user.Region, int(user.Age))
-
 	// 根据兴趣权重进行粗排
-	interestWeight := make(map[string]float64)
-	for _, ui := range userInterests {
-		interestWeight[ui.Tag] = ui.Weight
-	}
-
-	for _, adPlan := range ansAdPlans {
-		var targeting map[string]string
-		if err := json.Unmarshal([]byte(adPlan.TargetingRule), &targeting); err != nil {
-			continue
-		}
-		interest, ok := targeting["interest"]
-		if !ok {
-			continue
-		}
-		w := interestWeight[interest]
-		for _, ad := range adPlan.Creatives {
-			ad.Weight = w
-			ansCreatives = append(ansCreatives, ad)
-		}
-	}
-
-	sort.SliceStable(ansCreatives, func(i, j int) bool {
-		return ansCreatives[i].Weight > ansCreatives[j].Weight
-	})
+	ansCreatives = SortAdPlansByInterest(ansAdPlans, userInterests)
 
 	// TODO 根据CTR模型预测，进行粗排
 
@@ -246,4 +222,32 @@ func FilterAdPlansByUser(plans []*models.AdPlan, userRegion string, userAge int)
 	}
 
 	return result
+}
+
+func SortAdPlansByInterest(plans []*models.AdPlan, userInterests []*models.UserProfileInterest) []*models.AdCreative {
+	interestWeight := make(map[string]float64)
+	for _, ui := range userInterests {
+		interestWeight[ui.Tag] = ui.Weight
+	}
+	var ansCreatives []*models.AdCreative
+	for _, adPlan := range plans {
+		var targeting map[string]string
+		if err := json.Unmarshal([]byte(adPlan.TargetingRule), &targeting); err != nil {
+			continue
+		}
+		interest, ok := targeting["interest"]
+		if !ok {
+			continue
+		}
+		w := interestWeight[interest]
+		for _, ad := range adPlan.Creatives {
+			ad.Weight = w
+			ansCreatives = append(ansCreatives, ad)
+		}
+	}
+
+	sort.SliceStable(ansCreatives, func(i, j int) bool {
+		return ansCreatives[i].Weight > ansCreatives[j].Weight
+	})
+	return ansCreatives
 }
