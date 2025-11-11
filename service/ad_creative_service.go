@@ -286,14 +286,34 @@ func GetInterestAdPlansCachedV1(userInterests []*models.UserProfileInterest) ([]
 const getInterestAdPlansLua = `
 local result = {}
 local planIDSet = {}
+local limit = 50
+
 for i, tag in ipairs(ARGV) do
     local key = "interest:" .. tag
-    local planIDs = redis.call("SMEMBERS", key)
-    for _, pid in ipairs(planIDs) do
+    local pids = redis.call("SRANDMEMBER", key, limit)
+    for _, pid in ipairs(pids) do
         planIDSet[pid] = true
     end
 end
+
+local planIDs = {}
 for pid, _ in pairs(planIDSet) do
+    table.insert(planIDs, pid)
+end
+
+math.randomseed(redis.call("TIME")[2])
+for i = #planIDs, 2, -1 do
+    local j = math.random(i)
+    planIDs[i], planIDs[j] = planIDs[j], planIDs[i]
+end
+
+if #planIDs > limit then
+    for i = limit + 1, #planIDs do
+        planIDs[i] = nil
+    end
+end
+
+for _, pid in ipairs(planIDs) do
     local planJSON = redis.call("GET", "ad:plan:" .. pid)
     if planJSON then
         table.insert(result, planJSON)

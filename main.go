@@ -53,11 +53,6 @@ func SyncAdDataToRedis() error {
 		}
 		interest, _ := targeting["interest"]
 		database.RDB.SAdd(ctx, fmt.Sprintf("interest:%s", interest), p.PlanID)
-		for _, adCreative := range p.Creatives {
-			adCreativeStr, _ := json.Marshal(p)
-			database.RDB.Set(ctx, fmt.Sprintf("ad:creative:%d", adCreative.CreativeID), adCreativeStr, 0)
-			database.RDB.SAdd(ctx, fmt.Sprintf("ad:plan:%d:creatives", p.PlanID), adCreative.CreativeID)
-		}
 	}
 
 	return nil

@@ -7,6 +7,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"math/rand"
 	"os"
 	"strconv"
 	"sync"
@@ -102,17 +103,17 @@ func pressure() {
 	success := int64(0)
 	failed := int64(0)
 	totalCount := 10000
-	c := 20
+	c := 12
 
 	fmt.Printf("开始压测 RPC 接口: PredictCTR, 地址: %s, 并发: %d, 请求总数: %d\n", "127.0.0.1:8888", c, totalCount)
-
+	rand.Seed(time.Now().UnixNano())
 	wg.Add(c)
 	for i := 0; i < c; i++ {
 		go func() {
 			defer wg.Done()
 			for j := 0; j < totalCount/c; j++ {
 				getRcReq := &advert.GetAdvertRecommendRequest{
-					UserId: 1001,
+					UserId: int64(rand.Intn(100) + 1001),
 				}
 
 				_, err := newClient.GetAdvertRecommend(context.Background(), getRcReq)
