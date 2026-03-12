@@ -14,13 +14,18 @@ import (
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend/recommendservice"
 	"github.com/cloudwego/kitex/client"
+	etcd "github.com/kitex-contrib/registry-etcd"
 )
 
 func createAdPlanExample() {
 	// 创建客户端
+	r, err := etcd.NewEtcdResolver([]string{"127.0.0.1:2379"})
+	if err != nil {
+		log.Fatal(err)
+	}
 	c, err := recommendservice.NewClient(
-		"advertservice",
-		client.WithHostPorts("127.0.0.1:8888"),
+		"recommend-service",
+		client.WithResolver(r),
 	)
 	if err != nil {
 		log.Fatalf("❌ 创建客户端失败: %v", err)
@@ -42,48 +47,48 @@ func createAdPlanExample() {
 			fmt.Println("⚠️ 输入无效，请输入数字类型的用户ID。")
 			continue
 		}
-		//// 查询用户兴趣
-		//getReq := &recommend.GetUserInterestsRequest{
+		// 查询用户兴趣
+		getReq := &recommend.GetUserInterestsRequest{
+			UserId: userId,
+		}
+		getResp, err := c.GetUserInterests(context.Background(), getReq)
+		if err != nil {
+			log.Printf("❌ 查询用户兴趣失败: %v", err)
+			continue
+		}
+		// 打印用户兴趣信息
+		if len(getResp.Interests) == 0 {
+			fmt.Println("⚠️ 暂无兴趣信息。")
+			continue
+		}
+
+		fmt.Println("\n📢 用户兴趣信息：")
+		for _, interst := range getResp.Interests {
+			fmt.Printf("%s、", interst.Tag)
+		}
+
+		//// 查询广告推荐
+		//getRcReq := &recommend.GetAdvertRecommendRequest{
 		//	UserId: userId,
 		//}
-		//getResp, err := c.GetUserInterests(context.Background(), getReq)
+		//
+		//getRcResp, err := c.GetAdvertRecommend(context.Background(), getRcReq)
 		//if err != nil {
-		//	log.Printf("❌ 查询用户兴趣失败: %v", err)
-		//	continue
-		//}
-		//// 打印用户兴趣信息
-		//if len(getResp.Interests) == 0 {
-		//	fmt.Println("⚠️ 暂无兴趣信息。")
+		//	log.Printf("❌ 查询失败: %v", err)
 		//	continue
 		//}
 		//
-		//fmt.Println("\n📢 用户兴趣信息：")
-		//for _, interst := range getResp.Interests {
-		//	fmt.Printf("%s、", interst.Tag)
+		//// 打印广告创意信息
+		//if len(getRcResp.Adverts) == 0 {
+		//	fmt.Println("⚠️ 暂无匹配的广告创意。")
+		//	continue
 		//}
-
-		// 查询广告推荐
-		getRcReq := &recommend.GetAdvertRecommendRequest{
-			UserId: userId,
-		}
-
-		getRcResp, err := c.GetAdvertRecommend(context.Background(), getRcReq)
-		if err != nil {
-			log.Printf("❌ 查询失败: %v", err)
-			continue
-		}
-
-		// 打印广告创意信息
-		if len(getRcResp.Adverts) == 0 {
-			fmt.Println("⚠️ 暂无匹配的广告创意。")
-			continue
-		}
-
-		fmt.Println("\n📢 推荐广告创意列表：")
-		for _, ad := range getRcResp.Adverts {
-			fmt.Printf("- 创意ID: %d | 类型: %d | 标题: %s | 描述: %s | 媒体URL: %s | 分值：%.2f\n ",
-				ad.CreativeId, ad.CreativeType, ad.Title, ad.Description, ad.MediaUrl, ad.Weight)
-		}
+		//
+		//fmt.Println("\n📢 推荐广告创意列表：")
+		//for _, ad := range getRcResp.Adverts {
+		//	fmt.Printf("- 创意ID: %d | 类型: %d | 标题: %s | 描述: %s | 媒体URL: %s | 分值：%.2f\n ",
+		//		ad.CreativeId, ad.CreativeType, ad.Title, ad.Description, ad.MediaUrl, ad.Weight)
+		//}
 	}
 }
 
@@ -138,6 +143,6 @@ func pressure() {
 }
 
 func main() {
-	pressure()
-	//createAdPlanExample()
+	//pressure()
+	createAdPlanExample()
 }

@@ -9,7 +9,9 @@ import (
 	"gitee.com/HeXiangdong/AdvertRecommend/user-service/database"
 	"gitee.com/HeXiangdong/AdvertRecommend/user-service/handler"
 	user "gitee.com/HeXiangdong/AdvertRecommend/user-service/kitex_gen/user/userservice"
+	"github.com/cloudwego/kitex/pkg/rpcinfo"
 	"github.com/cloudwego/kitex/server"
+	etcd "github.com/kitex-contrib/registry-etcd"
 )
 
 func main() {
@@ -43,12 +45,19 @@ func main() {
 		log.Fatalf("Failed to resolve address: %v", err)
 	}
 	log.Printf("Server listening on %s", addr.String())
+	// 注册etcd
+	r, err := etcd.NewEtcdRegistry([]string{"127.0.0.1:2379"})
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	// 启动 Kitex 服务
 	impl := handler.NewUserServiceImpl()
 	svr := user.NewServer(
 		impl,
 		server.WithServiceAddr(addr),
+		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: "user-service"}),
+		server.WithRegistry(r),
 	)
 	err = svr.Run()
 

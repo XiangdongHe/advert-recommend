@@ -1,6 +1,6 @@
 module gitee.com/HeXiangdong/AdvertRecommend/recommend-service
 
-go 1.19
+go 1.22
 
 require (
 	github.com/cloudwego/kitex v0.16.1
