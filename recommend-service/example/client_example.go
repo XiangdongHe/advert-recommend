@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
 )
 
 // 这是一个简单的客户端测试示例
@@ -59,15 +59,15 @@ func main() {
 	}
 	fmt.Printf("创建广告创意请求: %+v\n", createCreativeReq)
 
-	// 示例6: 创建用户画像请求
-	createProfileReq := &recommend.CreateUserProfileRequest{
-		UserId:     1001,
-		Gender:     1, // male
-		Age:        28,
-		Region:     "北京",
-		DeviceType: "iPhone 14",
-	}
-	fmt.Printf("创建用户画像请求: %+v\n", createProfileReq)
+	//// 示例6: 创建用户画像请求
+	//createProfileReq := &recommend.CreateUserProfileRequest{
+	//	UserId:     1001,
+	//	Gender:     1, // male
+	//	Age:        28,
+	//	Region:     "北京",
+	//	DeviceType: "iPhone 14",
+	//}
+	//fmt.Printf("创建用户画像请求: %+v\n", createProfileReq)
 
 	// 示例7: 添加用户兴趣请求
 	addInterestReq := &recommend.AddUserInterestRequest{
