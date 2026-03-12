@@ -17,7 +17,7 @@ func main() {
 	// 实际使用需要通过 Kitex 客户端调用
 
 	// 示例1: 创建广告计划请求
-	createPlanReq := &advert.CreateAdPlanRequest{
+	createPlanReq := &recommend.CreateAdPlanRequest{
 		Name:          "测试广告计划",
 		Objective:     "click",
 		Budget:        10000.00,
@@ -30,27 +30,27 @@ func main() {
 
 	// 示例2: 更新广告计划请求
 	status := int32(0) // 暂停
-	updatePlanReq := &advert.UpdateAdPlanRequest{
+	updatePlanReq := &recommend.UpdateAdPlanRequest{
 		PlanId: 1,
 		Status: &status,
 	}
 	fmt.Printf("更新广告计划请求: %+v\n", updatePlanReq)
 
 	// 示例3: 查询广告计划请求
-	getPlanReq := &advert.GetAdPlanRequest{
+	getPlanReq := &recommend.GetAdPlanRequest{
 		PlanId: 1,
 	}
 	fmt.Printf("查询广告计划请求: %+v\n", getPlanReq)
 
 	// 示例4: 分页查询广告计划列表
-	listPlansReq := &advert.ListAdPlansRequest{
+	listPlansReq := &recommend.ListAdPlansRequest{
 		Page:     1,
 		PageSize: 10,
 	}
 	fmt.Printf("分页查询请求: %+v\n", listPlansReq)
 
 	// 示例5: 创建广告创意请求
-	createCreativeReq := &advert.CreateAdCreativeRequest{
+	createCreativeReq := &recommend.CreateAdCreativeRequest{
 		PlanId:       1,
 		CreativeType: 1, // image
 		MediaUrl:     "https://example.com/ad1.jpg",
@@ -60,7 +60,7 @@ func main() {
 	fmt.Printf("创建广告创意请求: %+v\n", createCreativeReq)
 
 	// 示例6: 创建用户画像请求
-	createProfileReq := &advert.CreateUserProfileRequest{
+	createProfileReq := &recommend.CreateUserProfileRequest{
 		UserId:     1001,
 		Gender:     1, // male
 		Age:        28,
@@ -70,7 +70,7 @@ func main() {
 	fmt.Printf("创建用户画像请求: %+v\n", createProfileReq)
 
 	// 示例7: 添加用户兴趣请求
-	addInterestReq := &advert.AddUserInterestRequest{
+	addInterestReq := &recommend.AddUserInterestRequest{
 		UserId: 1001,
 		Tag:    "科技",
 		Weight: 0.85,
@@ -78,7 +78,7 @@ func main() {
 	fmt.Printf("添加用户兴趣请求: %+v\n", addInterestReq)
 
 	// 示例8: 创建广告事件请求
-	createEventReq := &advert.CreateAdEventRequest{
+	createEventReq := &recommend.CreateAdEventRequest{
 		UserId:     1001,
 		CreativeId: 1,
 		EventType:  2, // click

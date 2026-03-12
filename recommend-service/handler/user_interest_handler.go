@@ -4,28 +4,29 @@ import (
 	"context"
 	"log"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/common"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
 )
 
 // ==================== 用户兴趣画像 CRUD ====================
 
 // AddUserInterest 添加用户兴趣
-func (s *AdvertServiceImpl) AddUserInterest(ctx context.Context, req *advert.AddUserInterestRequest) (*advert.AddUserInterestResponse, error) {
+func (s *RecommendServiceImpl) AddUserInterest(ctx context.Context, req *recommend.AddUserInterestRequest) (*recommend.AddUserInterestResponse, error) {
 	log.Printf("AddUserInterest: %+v", req)
 
 	id, err := s.userInterestService.AddUserInterest(req.UserId, req.Tag, req.Weight)
 	if err != nil {
-		return &advert.AddUserInterestResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.AddUserInterestResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.AddUserInterestResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.AddUserInterestResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -34,21 +35,21 @@ func (s *AdvertServiceImpl) AddUserInterest(ctx context.Context, req *advert.Add
 }
 
 // UpdateUserInterest 更新用户兴趣
-func (s *AdvertServiceImpl) UpdateUserInterest(ctx context.Context, req *advert.UpdateUserInterestRequest) (*advert.UpdateUserInterestResponse, error) {
+func (s *RecommendServiceImpl) UpdateUserInterest(ctx context.Context, req *recommend.UpdateUserInterestRequest) (*recommend.UpdateUserInterestResponse, error) {
 	log.Printf("UpdateUserInterest: %+v", req)
 
 	err := s.userInterestService.UpdateUserInterest(req.Id, req.Weight)
 	if err != nil {
-		return &advert.UpdateUserInterestResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.UpdateUserInterestResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.UpdateUserInterestResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.UpdateUserInterestResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -56,26 +57,26 @@ func (s *AdvertServiceImpl) UpdateUserInterest(ctx context.Context, req *advert.
 }
 
 // GetUserInterests 获取用户兴趣列表
-func (s *AdvertServiceImpl) GetUserInterests(ctx context.Context, req *advert.GetUserInterestsRequest) (*advert.GetUserInterestsResponse, error) {
+func (s *RecommendServiceImpl) GetUserInterests(ctx context.Context, req *recommend.GetUserInterestsRequest) (*recommend.GetUserInterestsResponse, error) {
 	log.Printf("GetUserInterests: %+v", req)
 
 	interests, err := s.userInterestService.GetUserInterests(req.UserId)
 	if err != nil {
-		return &advert.GetUserInterestsResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.GetUserInterestsResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	userInterests := make([]*advert.UserInterest, 0, len(interests))
+	userInterests := make([]*recommend.UserInterest, 0, len(interests))
 	for _, interest := range interests {
 		userInterests = append(userInterests, convertUserInterest(interest))
 	}
 
-	return &advert.GetUserInterestsResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.GetUserInterestsResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -84,21 +85,21 @@ func (s *AdvertServiceImpl) GetUserInterests(ctx context.Context, req *advert.Ge
 }
 
 // DeleteUserInterest 删除用户兴趣
-func (s *AdvertServiceImpl) DeleteUserInterest(ctx context.Context, req *advert.DeleteUserInterestRequest) (*advert.DeleteUserInterestResponse, error) {
+func (s *RecommendServiceImpl) DeleteUserInterest(ctx context.Context, req *recommend.DeleteUserInterestRequest) (*recommend.DeleteUserInterestResponse, error) {
 	log.Printf("DeleteUserInterest: %+v", req)
 
 	err := s.userInterestService.DeleteUserInterest(req.Id)
 	if err != nil {
-		return &advert.DeleteUserInterestResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.DeleteUserInterestResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.DeleteUserInterestResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.DeleteUserInterestResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -106,8 +107,8 @@ func (s *AdvertServiceImpl) DeleteUserInterest(ctx context.Context, req *advert.
 }
 
 // convertUserInterest 转换数据模型到 Thrift 模型
-func convertUserInterest(interest *models.UserProfileInterest) *advert.UserInterest {
-	return &advert.UserInterest{
+func convertUserInterest(interest *models.UserProfileInterest) *recommend.UserInterest {
+	return &recommend.UserInterest{
 		Id:         interest.ID,
 		UserId:     interest.UserID,
 		Tag:        interest.Tag,

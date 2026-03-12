@@ -11,14 +11,14 @@ import (
 	"sync"
 	"time"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert"
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert/advertservice"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend/recommendservice"
 	"github.com/cloudwego/kitex/client"
 )
 
 func createAdPlanExample() {
 	// 创建客户端
-	c, err := advertservice.NewClient(
+	c, err := recommendservice.NewClient(
 		"advertservice",
 		client.WithHostPorts("127.0.0.1:8888"),
 	)
@@ -43,7 +43,7 @@ func createAdPlanExample() {
 			continue
 		}
 		//// 查询用户兴趣
-		//getReq := &advert.GetUserInterestsRequest{
+		//getReq := &recommend.GetUserInterestsRequest{
 		//	UserId: userId,
 		//}
 		//getResp, err := c.GetUserInterests(context.Background(), getReq)
@@ -63,7 +63,7 @@ func createAdPlanExample() {
 		//}
 
 		// 查询广告推荐
-		getRcReq := &advert.GetAdvertRecommendRequest{
+		getRcReq := &recommend.GetAdvertRecommendRequest{
 			UserId: userId,
 		}
 
@@ -89,7 +89,7 @@ func createAdPlanExample() {
 
 func pressure() {
 
-	newClient, err := advertservice.NewClient(
+	newClient, err := recommendservice.NewClient(
 		"advertservice",
 		client.WithHostPorts("127.0.0.1:8888"),
 	)
@@ -112,7 +112,7 @@ func pressure() {
 		go func() {
 			defer wg.Done()
 			for j := 0; j < totalCount/c; j++ {
-				getRcReq := &advert.GetAdvertRecommendRequest{
+				getRcReq := &recommend.GetAdvertRecommendRequest{
 					UserId: int64(rand.Intn(100) + 1001),
 				}
 

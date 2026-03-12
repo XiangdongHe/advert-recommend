@@ -10,7 +10,7 @@ import (
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/config"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/database"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/handler"
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert/advertservice"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend/recommendservice"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
 	"github.com/cloudwego/kitex/server"
 )
@@ -85,7 +85,7 @@ func main() {
 	//	log.Fatalf("Failed to sync ad data to redis: %v", err)
 	//}
 	// 创建服务处理器
-	impl := handler.NewAdvertServiceImpl()
+	impl := handler.NewRecommendServiceImpl()
 
 	// 创建 Kitex 服务器地址
 	addr, err := net.ResolveTCPAddr("tcp", fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port))
@@ -96,7 +96,7 @@ func main() {
 	log.Printf("Server listening on %s", addr.String())
 
 	// 启动 Kitex 服务
-	svr := advertservice.NewServer(
+	svr := recommendservice.NewServer(
 		impl,
 		server.WithServiceAddr(addr),
 	)

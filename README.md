@@ -367,7 +367,7 @@ SELECT * FROM user_ad_event_log;
 
 ### 创建广告计划
 ```go
-req := &advert.CreateAdPlanRequest{
+req := &recommend.CreateAdPlanRequest{
     Name:          "春季促销计划",
     Objective:     "click",
     Budget:        20000.00,
@@ -381,7 +381,7 @@ resp, err := client.CreateAdPlan(ctx, req)
 
 ### 查询广告计划
 ```go
-req := &advert.GetAdPlanRequest{
+req := &recommend.GetAdPlanRequest{
     PlanId: 1,
 }
 resp, err := client.GetAdPlan(ctx, req)
@@ -389,7 +389,7 @@ resp, err := client.GetAdPlan(ctx, req)
 
 ### 分页查询广告计划列表
 ```go
-req := &advert.ListAdPlansRequest{
+req := &recommend.ListAdPlansRequest{
     Page:     1,
     PageSize: 10,
 }
@@ -399,7 +399,7 @@ resp, err := client.ListAdPlans(ctx, req)
 ### 更新广告计划状态
 ```go
 status := int32(0)  // 暂停
-req := &advert.UpdateAdPlanRequest{
+req := &recommend.UpdateAdPlanRequest{
     PlanId: 1,
     Status: &status,
 }
@@ -408,7 +408,7 @@ resp, err := client.UpdateAdPlan(ctx, req)
 
 ### 创建广告创意
 ```go
-req := &advert.CreateAdCreativeRequest{
+req := &recommend.CreateAdCreativeRequest{
     PlanId:       1,
     CreativeType: 1,  // 1=image, 2=video, 3=text
     MediaUrl:     "https://cdn.example.com/spring-sale.jpg",
@@ -420,7 +420,7 @@ resp, err := client.CreateAdCreative(ctx, req)
 
 ### 创建用户画像
 ```go
-req := &advert.CreateUserProfileRequest{
+req := &recommend.CreateUserProfileRequest{
     UserId:     2001,
     Gender:     1,  // 1=male, 2=female
     Age:        30,
@@ -432,7 +432,7 @@ resp, err := client.CreateUserProfile(ctx, req)
 
 ### 添加用户兴趣标签
 ```go
-req := &advert.AddUserInterestRequest{
+req := &recommend.AddUserInterestRequest{
     UserId: 2001,
     Tag:    "数码产品",
     Weight: 0.90,
@@ -442,7 +442,7 @@ resp, err := client.AddUserInterest(ctx, req)
 
 ### 记录广告事件
 ```go
-req := &advert.CreateAdEventRequest{
+req := &recommend.CreateAdEventRequest{
     UserId:     2001,
     CreativeId: 1,
     EventType:  1,  // 1=exposure, 2=click, 3=conversion
@@ -454,7 +454,7 @@ resp, err := client.CreateAdEvent(ctx, req)
 
 ### 查询用户行为历史
 ```go
-req := &advert.GetUserAdEventsRequest{
+req := &recommend.GetUserAdEventsRequest{
     UserId:   2001,
     Page:     1,
     PageSize: 20,

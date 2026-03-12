@@ -4,14 +4,15 @@ import (
 	"context"
 	"log"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/common"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
 )
 
 // ==================== 广告创意 CRUD ====================
 
 // CreateAdCreative 创建广告创意
-func (s *AdvertServiceImpl) CreateAdCreative(ctx context.Context, req *advert.CreateAdCreativeRequest) (*advert.CreateAdCreativeResponse, error) {
+func (s *RecommendServiceImpl) CreateAdCreative(ctx context.Context, req *recommend.CreateAdCreativeRequest) (*recommend.CreateAdCreativeResponse, error) {
 	log.Printf("CreateAdCreative: %+v", req)
 
 	creativeID, err := s.adCreativeService.CreateAdCreative(
@@ -23,16 +24,16 @@ func (s *AdvertServiceImpl) CreateAdCreative(ctx context.Context, req *advert.Cr
 	)
 
 	if err != nil {
-		return &advert.CreateAdCreativeResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.CreateAdCreativeResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.CreateAdCreativeResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.CreateAdCreativeResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -41,7 +42,7 @@ func (s *AdvertServiceImpl) CreateAdCreative(ctx context.Context, req *advert.Cr
 }
 
 // UpdateAdCreative 更新广告创意
-func (s *AdvertServiceImpl) UpdateAdCreative(ctx context.Context, req *advert.UpdateAdCreativeRequest) (*advert.UpdateAdCreativeResponse, error) {
+func (s *RecommendServiceImpl) UpdateAdCreative(ctx context.Context, req *recommend.UpdateAdCreativeRequest) (*recommend.UpdateAdCreativeResponse, error) {
 	log.Printf("UpdateAdCreative: %+v", req)
 
 	updates := make(map[string]interface{})
@@ -66,16 +67,16 @@ func (s *AdvertServiceImpl) UpdateAdCreative(ctx context.Context, req *advert.Up
 
 	err := s.adCreativeService.UpdateAdCreative(req.CreativeId, updates)
 	if err != nil {
-		return &advert.UpdateAdCreativeResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.UpdateAdCreativeResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.UpdateAdCreativeResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.UpdateAdCreativeResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -83,21 +84,21 @@ func (s *AdvertServiceImpl) UpdateAdCreative(ctx context.Context, req *advert.Up
 }
 
 // GetAdCreative 获取广告创意
-func (s *AdvertServiceImpl) GetAdCreative(ctx context.Context, req *advert.GetAdCreativeRequest) (*advert.GetAdCreativeResponse, error) {
+func (s *RecommendServiceImpl) GetAdCreative(ctx context.Context, req *recommend.GetAdCreativeRequest) (*recommend.GetAdCreativeResponse, error) {
 	log.Printf("GetAdCreative: %+v", req)
 
 	creative, err := s.adCreativeService.GetAdCreative(req.CreativeId)
 	if err != nil {
-		return &advert.GetAdCreativeResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.GetAdCreativeResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    404,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.GetAdCreativeResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.GetAdCreativeResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -106,26 +107,26 @@ func (s *AdvertServiceImpl) GetAdCreative(ctx context.Context, req *advert.GetAd
 }
 
 // ListAdCreatives 获取广告创意列表
-func (s *AdvertServiceImpl) ListAdCreatives(ctx context.Context, req *advert.ListAdCreativesRequest) (*advert.ListAdCreativesResponse, error) {
+func (s *RecommendServiceImpl) ListAdCreatives(ctx context.Context, req *recommend.ListAdCreativesRequest) (*recommend.ListAdCreativesResponse, error) {
 	log.Printf("ListAdCreatives: %+v", req)
 
 	creatives, total, err := s.adCreativeService.ListAdCreatives(int(req.Page), int(req.PageSize), req.PlanId)
 	if err != nil {
-		return &advert.ListAdCreativesResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.ListAdCreativesResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	adCreatives := make([]*advert.AdCreative, 0, len(creatives))
+	adCreatives := make([]*recommend.AdCreative, 0, len(creatives))
 	for _, creative := range creatives {
 		adCreatives = append(adCreatives, convertAdCreative(creative))
 	}
 
-	return &advert.ListAdCreativesResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.ListAdCreativesResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -135,21 +136,21 @@ func (s *AdvertServiceImpl) ListAdCreatives(ctx context.Context, req *advert.Lis
 }
 
 // DeleteAdCreative 删除广告创意
-func (s *AdvertServiceImpl) DeleteAdCreative(ctx context.Context, req *advert.DeleteAdCreativeRequest) (*advert.DeleteAdCreativeResponse, error) {
+func (s *RecommendServiceImpl) DeleteAdCreative(ctx context.Context, req *recommend.DeleteAdCreativeRequest) (*recommend.DeleteAdCreativeResponse, error) {
 	log.Printf("DeleteAdCreative: %+v", req)
 
 	err := s.adCreativeService.DeleteAdCreative(req.CreativeId)
 	if err != nil {
-		return &advert.DeleteAdCreativeResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.DeleteAdCreativeResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.DeleteAdCreativeResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.DeleteAdCreativeResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -157,8 +158,8 @@ func (s *AdvertServiceImpl) DeleteAdCreative(ctx context.Context, req *advert.De
 }
 
 // convertAdCreative 转换数据模型到 Thrift 模型
-func convertAdCreative(creative *models.AdCreative) *advert.AdCreative {
-	return &advert.AdCreative{
+func convertAdCreative(creative *models.AdCreative) *recommend.AdCreative {
+	return &recommend.AdCreative{
 		CreativeId:   creative.CreativeID,
 		PlanId:       creative.PlanID,
 		CreativeType: creative.CreativeType,

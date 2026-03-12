@@ -82,7 +82,6 @@ func AutoMigrate() error {
 	err := DB.AutoMigrate(
 		&models.AdPlan{},
 		&models.AdCreative{},
-		&models.UserProfileBase{},
 		&models.UserProfileInterest{},
 		&models.UserAdEventLog{},
 	)

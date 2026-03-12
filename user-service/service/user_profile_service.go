@@ -3,8 +3,8 @@ package service
 import (
 	"errors"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/database"
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
+	"gitee.com/HeXiangdong/AdvertRecommend/user-service/database"
+	"gitee.com/HeXiangdong/AdvertRecommend/user-service/models"
 	"gorm.io/gorm"
 )
 

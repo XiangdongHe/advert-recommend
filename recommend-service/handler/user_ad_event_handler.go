@@ -4,14 +4,15 @@ import (
 	"context"
 	"log"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/common"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
 )
 
 // ==================== 用户行为日志 ====================
 
 // CreateAdEvent 创建广告事件
-func (s *AdvertServiceImpl) CreateAdEvent(ctx context.Context, req *advert.CreateAdEventRequest) (*advert.CreateAdEventResponse, error) {
+func (s *RecommendServiceImpl) CreateAdEvent(ctx context.Context, req *recommend.CreateAdEventRequest) (*recommend.CreateAdEventResponse, error) {
 	log.Printf("CreateAdEvent: %+v", req)
 
 	eventID, err := s.adEventService.CreateAdEvent(
@@ -23,16 +24,16 @@ func (s *AdvertServiceImpl) CreateAdEvent(ctx context.Context, req *advert.Creat
 	)
 
 	if err != nil {
-		return &advert.CreateAdEventResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.CreateAdEventResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.CreateAdEventResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.CreateAdEventResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -41,7 +42,7 @@ func (s *AdvertServiceImpl) CreateAdEvent(ctx context.Context, req *advert.Creat
 }
 
 // GetUserAdEvents 获取用户广告事件列表
-func (s *AdvertServiceImpl) GetUserAdEvents(ctx context.Context, req *advert.GetUserAdEventsRequest) (*advert.GetUserAdEventsResponse, error) {
+func (s *RecommendServiceImpl) GetUserAdEvents(ctx context.Context, req *recommend.GetUserAdEventsRequest) (*recommend.GetUserAdEventsResponse, error) {
 	log.Printf("GetUserAdEvents: %+v", req)
 
 	events, total, err := s.adEventService.GetUserAdEvents(
@@ -52,21 +53,21 @@ func (s *AdvertServiceImpl) GetUserAdEvents(ctx context.Context, req *advert.Get
 	)
 
 	if err != nil {
-		return &advert.GetUserAdEventsResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.GetUserAdEventsResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	userAdEvents := make([]*advert.UserAdEvent, 0, len(events))
+	userAdEvents := make([]*recommend.UserAdEvent, 0, len(events))
 	for _, event := range events {
 		userAdEvents = append(userAdEvents, convertUserAdEvent(event))
 	}
 
-	return &advert.GetUserAdEventsResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.GetUserAdEventsResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -76,7 +77,7 @@ func (s *AdvertServiceImpl) GetUserAdEvents(ctx context.Context, req *advert.Get
 }
 
 // GetCreativeAdEvents 获取创意广告事件列表
-func (s *AdvertServiceImpl) GetCreativeAdEvents(ctx context.Context, req *advert.GetCreativeAdEventsRequest) (*advert.GetCreativeAdEventsResponse, error) {
+func (s *RecommendServiceImpl) GetCreativeAdEvents(ctx context.Context, req *recommend.GetCreativeAdEventsRequest) (*recommend.GetCreativeAdEventsResponse, error) {
 	log.Printf("GetCreativeAdEvents: %+v", req)
 
 	events, total, err := s.adEventService.GetCreativeAdEvents(
@@ -87,21 +88,21 @@ func (s *AdvertServiceImpl) GetCreativeAdEvents(ctx context.Context, req *advert
 	)
 
 	if err != nil {
-		return &advert.GetCreativeAdEventsResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.GetCreativeAdEventsResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	creativeAdEvents := make([]*advert.UserAdEvent, 0, len(events))
+	creativeAdEvents := make([]*recommend.UserAdEvent, 0, len(events))
 	for _, event := range events {
 		creativeAdEvents = append(creativeAdEvents, convertUserAdEvent(event))
 	}
 
-	return &advert.GetCreativeAdEventsResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.GetCreativeAdEventsResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -111,8 +112,8 @@ func (s *AdvertServiceImpl) GetCreativeAdEvents(ctx context.Context, req *advert
 }
 
 // convertUserAdEvent 转换数据模型到 Thrift 模型
-func convertUserAdEvent(event *models.UserAdEventLog) *advert.UserAdEvent {
-	return &advert.UserAdEvent{
+func convertUserAdEvent(event *models.UserAdEventLog) *recommend.UserAdEvent {
+	return &recommend.UserAdEvent{
 		EventId:    event.EventID,
 		UserId:     event.UserID,
 		CreativeId: event.CreativeID,

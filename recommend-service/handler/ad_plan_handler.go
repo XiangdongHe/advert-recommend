@@ -4,26 +4,25 @@ import (
 	"context"
 	"log"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/advert"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/common"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/service"
 )
 
-// AdvertServiceImpl 实现 AdvertService 接口
-type AdvertServiceImpl struct {
+// RecommendServiceImpl 实现 AdvertService 接口
+type RecommendServiceImpl struct {
 	adPlanService       *service.AdPlanService
 	adCreativeService   *service.AdCreativeService
-	userProfileService  *service.UserProfileService
 	userInterestService *service.UserInterestService
 	adEventService      *service.UserAdEventService
 }
 
-// NewAdvertServiceImpl 创建服务实现实例
-func NewAdvertServiceImpl() *AdvertServiceImpl {
-	return &AdvertServiceImpl{
+// NewRecommendServiceImpl 创建服务实现实例
+func NewRecommendServiceImpl() *RecommendServiceImpl {
+	return &RecommendServiceImpl{
 		adPlanService:       service.NewAdPlanService(),
 		adCreativeService:   service.NewAdCreativeService(),
-		userProfileService:  service.NewUserProfileService(),
 		userInterestService: service.NewUserInterestService(),
 		adEventService:      service.NewUserAdEventService(),
 	}
@@ -32,7 +31,7 @@ func NewAdvertServiceImpl() *AdvertServiceImpl {
 // ==================== 广告计划 CRUD ====================
 
 // CreateAdPlan 创建广告计划
-func (s *AdvertServiceImpl) CreateAdPlan(ctx context.Context, req *advert.CreateAdPlanRequest) (*advert.CreateAdPlanResponse, error) {
+func (s *RecommendServiceImpl) CreateAdPlan(ctx context.Context, req *recommend.CreateAdPlanRequest) (*recommend.CreateAdPlanResponse, error) {
 	log.Printf("CreateAdPlan: %+v", req)
 
 	planID, err := s.adPlanService.CreateAdPlan(
@@ -46,16 +45,16 @@ func (s *AdvertServiceImpl) CreateAdPlan(ctx context.Context, req *advert.Create
 	)
 
 	if err != nil {
-		return &advert.CreateAdPlanResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.CreateAdPlanResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.CreateAdPlanResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.CreateAdPlanResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -64,7 +63,7 @@ func (s *AdvertServiceImpl) CreateAdPlan(ctx context.Context, req *advert.Create
 }
 
 // UpdateAdPlan 更新广告计划
-func (s *AdvertServiceImpl) UpdateAdPlan(ctx context.Context, req *advert.UpdateAdPlanRequest) (*advert.UpdateAdPlanResponse, error) {
+func (s *RecommendServiceImpl) UpdateAdPlan(ctx context.Context, req *recommend.UpdateAdPlanRequest) (*recommend.UpdateAdPlanResponse, error) {
 	log.Printf("UpdateAdPlan: %+v", req)
 
 	updates := make(map[string]interface{})
@@ -95,16 +94,16 @@ func (s *AdvertServiceImpl) UpdateAdPlan(ctx context.Context, req *advert.Update
 
 	err := s.adPlanService.UpdateAdPlan(req.PlanId, updates)
 	if err != nil {
-		return &advert.UpdateAdPlanResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.UpdateAdPlanResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.UpdateAdPlanResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.UpdateAdPlanResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -112,21 +111,21 @@ func (s *AdvertServiceImpl) UpdateAdPlan(ctx context.Context, req *advert.Update
 }
 
 // GetAdPlan 获取广告计划
-func (s *AdvertServiceImpl) GetAdPlan(ctx context.Context, req *advert.GetAdPlanRequest) (*advert.GetAdPlanResponse, error) {
+func (s *RecommendServiceImpl) GetAdPlan(ctx context.Context, req *recommend.GetAdPlanRequest) (*recommend.GetAdPlanResponse, error) {
 	log.Printf("GetAdPlan: %+v", req)
 
 	plan, err := s.adPlanService.GetAdPlan(req.PlanId)
 	if err != nil {
-		return &advert.GetAdPlanResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.GetAdPlanResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    404,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.GetAdPlanResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.GetAdPlanResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -135,26 +134,26 @@ func (s *AdvertServiceImpl) GetAdPlan(ctx context.Context, req *advert.GetAdPlan
 }
 
 // ListAdPlans 获取广告计划列表
-func (s *AdvertServiceImpl) ListAdPlans(ctx context.Context, req *advert.ListAdPlansRequest) (*advert.ListAdPlansResponse, error) {
+func (s *RecommendServiceImpl) ListAdPlans(ctx context.Context, req *recommend.ListAdPlansRequest) (*recommend.ListAdPlansResponse, error) {
 	log.Printf("ListAdPlans: %+v", req)
 
 	plans, total, err := s.adPlanService.ListAdPlans(int(req.Page), int(req.PageSize), req.Status)
 	if err != nil {
-		return &advert.ListAdPlansResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.ListAdPlansResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	adPlans := make([]*advert.AdPlan, 0, len(plans))
+	adPlans := make([]*recommend.AdPlan, 0, len(plans))
 	for _, plan := range plans {
 		adPlans = append(adPlans, convertAdPlan(plan))
 	}
 
-	return &advert.ListAdPlansResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.ListAdPlansResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -164,21 +163,21 @@ func (s *AdvertServiceImpl) ListAdPlans(ctx context.Context, req *advert.ListAdP
 }
 
 // DeleteAdPlan 删除广告计划
-func (s *AdvertServiceImpl) DeleteAdPlan(ctx context.Context, req *advert.DeleteAdPlanRequest) (*advert.DeleteAdPlanResponse, error) {
+func (s *RecommendServiceImpl) DeleteAdPlan(ctx context.Context, req *recommend.DeleteAdPlanRequest) (*recommend.DeleteAdPlanResponse, error) {
 	log.Printf("DeleteAdPlan: %+v", req)
 
 	err := s.adPlanService.DeleteAdPlan(req.PlanId)
 	if err != nil {
-		return &advert.DeleteAdPlanResponse{
-			BaseResp: &advert.BaseResponse{
+		return &recommend.DeleteAdPlanResponse{
+			BaseResp: &common.BaseResponse{
 				Code:    500,
 				Message: err.Error(),
 			},
 		}, nil
 	}
 
-	return &advert.DeleteAdPlanResponse{
-		BaseResp: &advert.BaseResponse{
+	return &recommend.DeleteAdPlanResponse{
+		BaseResp: &common.BaseResponse{
 			Code:    200,
 			Message: "success",
 		},
@@ -186,8 +185,8 @@ func (s *AdvertServiceImpl) DeleteAdPlan(ctx context.Context, req *advert.Delete
 }
 
 // convertAdPlan 转换数据模型到 Thrift 模型
-func convertAdPlan(plan *models.AdPlan) *advert.AdPlan {
-	return &advert.AdPlan{
+func convertAdPlan(plan *models.AdPlan) *recommend.AdPlan {
+	return &recommend.AdPlan{
 		PlanId:        plan.PlanID,
 		Name:          plan.Name,
 		Objective:     plan.Objective,
