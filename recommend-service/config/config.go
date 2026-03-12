@@ -31,7 +31,7 @@ type RecommendConfig struct {
 func GetDefaultConfig() *Config {
 	return &Config{
 		Server: ServerConfig{
-			Host: "0.0.0.0",
+			Host: "127.0.0.1",
 			Port: 8888,
 		},
 		Database: DatabaseConfig{

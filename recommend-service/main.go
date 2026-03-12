@@ -13,9 +13,7 @@ import (
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend/recommendservice"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/rpc"
-	"github.com/cloudwego/kitex/pkg/registry"
 	"github.com/cloudwego/kitex/pkg/rpcinfo"
-	"github.com/cloudwego/kitex/pkg/utils"
 	"github.com/cloudwego/kitex/server"
 	etcd "github.com/kitex-contrib/registry-etcd"
 )
@@ -110,10 +108,6 @@ func main() {
 		server.WithServiceAddr(addr),
 		server.WithServerBasicInfo(&rpcinfo.EndpointBasicInfo{ServiceName: "recommend-service"}),
 		server.WithRegistry(r),
-		server.WithRegistryInfo(&registry.Info{
-			ServiceName: "recommend-service",
-			Addr:        utils.NewNetAddr("tcp", "127.0.0.1:8888"),
-		}),
 	)
 
 	err = svr.Run()
