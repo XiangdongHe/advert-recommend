@@ -13,7 +13,9 @@ import (
 
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/config"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/database"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/user"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/rpc"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/utils"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
@@ -146,25 +148,18 @@ func (s *AdCreativeService) GetAdvertRecommend(userId int64) ([]*models.AdCreati
 	return ansCreatives, total, nil
 }
 
-func GetUserProfileBaseCached(userId int64) (*models.UserProfileBase, error) {
-	key := fmt.Sprintf("user:profile:%d", userId)
-	var user models.UserProfileBase
-	ctx := context.Background()
-	// 尝试从 Redis 取
-	val, err := database.RDB.Get(ctx, key).Result()
-	if err == nil {
-		if err := json.Unmarshal([]byte(val), &user); err == nil {
-			return &user, nil
-		}
-	}
-	// 缓存未命中 → 访问数据库
-	if err := database.DB.Where("user_id = ?", userId).First(&user).Error; err != nil {
+func GetUserProfileBaseCached(userId int64) (r *user.UserProfileBase, err error) {
+	profile, err := rpc.UserClient.GetUserProfile(context.Background(), &user.GetUserProfileRequest{UserId: userId})
+	if err != nil {
+		log.Printf("rpc GetUserProfile failed, userId=%d, err=%v", userId, err)
 		return nil, err
 	}
-	// 写入缓存
-	data, _ := json.Marshal(user)
-	database.RDB.Set(ctx, key, data, time.Hour)
-	return &user, nil
+
+	if profile == nil {
+		log.Printf("rpc GetUserProfile returned nil response, userId=%d", userId)
+		return nil, errors.New("nil response from user service")
+	}
+	return profile.GetUserProfile(), nil
 }
 
 func GetUserInterestsCached(userId int64) ([]*models.UserProfileInterest, error) {

@@ -12,6 +12,7 @@ import (
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/handler"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/kitex_gen/recommend/recommendservice"
 	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
+	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/rpc"
 	"github.com/cloudwego/kitex/server"
 )
 
@@ -81,11 +82,9 @@ func main() {
 	if err := database.InitRedis(); err != nil {
 		log.Fatalf("Failed to initialize redis: %v", err)
 	}
-	//if err := SyncAdDataToRedis(); err != nil {
-	//	log.Fatalf("Failed to sync ad data to redis: %v", err)
-	//}
-	// 创建服务处理器
-	impl := handler.NewRecommendServiceImpl()
+
+	// 初始化rpc服务
+	rpc.InitUserRPC()
 
 	// 创建 Kitex 服务器地址
 	addr, err := net.ResolveTCPAddr("tcp", fmt.Sprintf("%s:%d", cfg.Server.Host, cfg.Server.Port))
@@ -95,6 +94,8 @@ func main() {
 
 	log.Printf("Server listening on %s", addr.String())
 
+	// 创建服务处理器
+	impl := handler.NewRecommendServiceImpl()
 	// 启动 Kitex 服务
 	svr := recommendservice.NewServer(
 		impl,

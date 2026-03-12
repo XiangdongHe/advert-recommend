@@ -1,11 +1,14 @@
 package service
 
 import (
+	"context"
+	"encoding/json"
 	"errors"
+	"fmt"
+	"time"
 
 	"gitee.com/HeXiangdong/AdvertRecommend/user-service/database"
 	"gitee.com/HeXiangdong/AdvertRecommend/user-service/models"
-	"gorm.io/gorm"
 )
 
 // UserProfileService 用户画像服务
@@ -48,15 +51,25 @@ func (s *UserProfileService) UpdateUserProfile(userID int64, updates map[string]
 }
 
 // GetUserProfile 获取用户画像
-func (s *UserProfileService) GetUserProfile(userID int64) (*models.UserProfileBase, error) {
-	var profile models.UserProfileBase
-	if err := database.DB.Where("user_id = ?", userID).First(&profile).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil, errors.New("user profile not found")
+func (s *UserProfileService) GetUserProfile(userId int64) (*models.UserProfileBase, error) {
+	key := fmt.Sprintf("user:profile:%d", userId)
+	var user models.UserProfileBase
+	ctx := context.Background()
+	// 尝试从 Redis 取
+	val, err := database.RDB.Get(ctx, key).Result()
+	if err == nil {
+		if err := json.Unmarshal([]byte(val), &user); err == nil {
+			return &user, nil
 		}
+	}
+	// 缓存未命中 → 访问数据库
+	if err := database.DB.Where("user_id = ?", userId).First(&user).Error; err != nil {
 		return nil, err
 	}
-	return &profile, nil
+	// 写入缓存
+	data, _ := json.Marshal(user)
+	database.RDB.Set(ctx, key, data, time.Hour)
+	return &user, nil
 }
 
 // DeleteUserProfile 删除用户画像

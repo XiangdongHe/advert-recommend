@@ -6,7 +6,7 @@ import (
 	"log"
 	"time"
 
-	"gitee.com/HeXiangdong/AdvertRecommend/recommend-service/models"
+	"gitee.com/HeXiangdong/AdvertRecommend/user-service/models"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
@@ -80,11 +80,7 @@ func InitRedis() error {
 // AutoMigrate 自动迁移数据库表结构
 func AutoMigrate() error {
 	err := DB.AutoMigrate(
-		&models.AdPlan{},
-		&models.AdCreative{},
 		&models.UserProfileBase{},
-		&models.UserProfileInterest{},
-		&models.UserAdEventLog{},
 	)
 	if err != nil {
 		return fmt.Errorf("failed to migrate database: %v", err)
